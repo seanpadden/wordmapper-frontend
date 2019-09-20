@@ -297,7 +297,7 @@ class App extends Component {
   }
 
 render(){
-  
+  console.log(this.props)
 return (
   <div className="App">
   {/* vvv API TESTING vvv */}
@@ -314,7 +314,10 @@ return (
       />
     </form>
     <div>
-      <button onClick={this.getCoordinates}>Find Lanuages</button>
+      <button onClick={this.compareLanguages}>Find Lanuages</button>
+    </div>
+    <div>
+      <button onClick={this.getCoordinates}>Get Coordinates</button>
     </div>
   {/* ^^^ API TESTING ^^^ */}
  <Switch>
