@@ -10,7 +10,7 @@ import reducer from './Redux/reducer'
 
 import {Provider} from 'react-redux'
 
-const storeObj = createStore(reducer)
+const storeObj = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 
 ReactDOM.render(

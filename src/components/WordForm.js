@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+// import Word from './components/Word'
 import Geocode from "react-geocode";
+import {connect} from 'react-redux'
+import {addWord} from '../Redux/actions.js'
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
@@ -217,16 +220,18 @@ const allTheLanguages = [
   'Zulu' 
 ];
 
+const  languagesToCoordinates = [{
+  English: {lat: 54.0000, lng: -2.0000},
+  French: {lat: 46.0000, lng: 2.0000},
+  German: {lat: 51.1657, lng: 10.4515}
+}]
+
 class WordInput extends Component {
 
   state = {
-    word: '',
+    word: "",
     etymology: [[]],
-    languages: [],
-    currentLocation: {
-        lat: 0, 
-        lng: 0
-      }
+    languages: [[]]
   }
 
   handleChange = (e) => {
@@ -238,6 +243,7 @@ class WordInput extends Component {
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
+    // this.props.addWord(word)
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => this.setState({
@@ -250,15 +256,19 @@ class WordInput extends Component {
   //// AFTER THAT, WE NEED TO CONVERT THE LANGUAGE NAME TO COINCIDE WITH COUNTRY NAME/COORDINATES
   compareLanguages = (e) => {
     e.preventDefault()
+    ///Map over array of all the languages 
     const getLanguages = allTheLanguages.map(language => {
       let copiedStr = this.state.etymology[0][1]
       let arr = copiedStr.split(" ")
+      /// ...new Set prevents duplicates
       let distinctArr = [...new Set(arr)]
       const result = distinctArr.filter(strObj => strObj.includes(language))
       if (result.length > 0){
-        this.setState({
-          languages: [...this.state.languages, result]
-        })
+        console.log(result)
+        
+        // this.setState({
+        //   languages: [...this.state.languages, result]
+        // })
       }
     })
   }
@@ -266,7 +276,7 @@ class WordInput extends Component {
   /// GEOCODING WORKING! JUST NEED LANGUAGE NAME TO CORRESPOND WITH COORDINATES.
   getCoordinates = () => {
     Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
-    Geocode.fromAddress("germany").then(
+    Geocode.fromAddress("brazil").then(
       response => {
         const { lat, lng } = response.results[0].geometry.location;
         console.log("lat:", lat, "lng:", lng)
@@ -283,8 +293,9 @@ class WordInput extends Component {
     );
   }
 
+  
   render(){
-    console.log(this.state.word)
+    console.log(this.state)
     return(
       <div>
         <h1>HELLO ENTER WORDS</h1>
@@ -311,4 +322,16 @@ class WordInput extends Component {
   }
 }
 
-export default WordInput
+
+////VIA MAP DISPATCH
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addWord: (word) => {dispatch({type: "ADD_WORD", payload: word})}
+//   }
+// }
+
+///First arg of connect is to "GET" information 
+///Second arg of connect is to "SET" information
+
+/// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
+export default connect(null, {addWord})(WordInput)

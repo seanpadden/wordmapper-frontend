@@ -5,18 +5,10 @@ import ProfilePage from './components/ProfilePage.js'
 import LoginPage from './components/LoginPage.js'
 import SignUpPage from './components/SignUpPage.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
-import WordInput from './components/WordInput.js'
+import WordForm from './components/WordForm.js'
 
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
-
-
-
-const  languagesToCoordinates = [{
-  English: {lat: 54.0000, lng: -2.0000},
-  French: {lat: 46.0000, lng: 2.0000},
-  German: {lat: 51.1657, lng: 10.4515}
-}]
   
 class App extends Component {
 
@@ -49,7 +41,7 @@ return (
       render={routerProps => <ProfilePage {...routerProps} username={this.state.username}/>} />
     <Route path={'/login'} component={LoginPage} />
     <Route path={'/signup'} component={SignUpPage} />
-    <Route path={'/input'} component={WordInput} />
+    <Route path={'/input'} component={WordForm} />
   </Switch>
   </div>
 )}
