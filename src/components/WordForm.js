@@ -231,7 +231,7 @@ class WordInput extends Component {
   state = {
     word: "",
     etymology: [[]],
-    languages: [[]]
+    languages: []
   }
 
   handleChange = (e) => {
@@ -256,20 +256,23 @@ class WordInput extends Component {
   //// AFTER THAT, WE NEED TO CONVERT THE LANGUAGE NAME TO COINCIDE WITH COUNTRY NAME/COORDINATES
   compareLanguages = (e) => {
     e.preventDefault()
-    ///Map over array of all the languages 
-    const getLanguages = allTheLanguages.map(language => {
-      let copiedStr = this.state.etymology[0][1]
-      let arr = copiedStr.split(" ")
-      /// ...new Set prevents duplicates
-      let distinctArr = [...new Set(arr)]
-      const result = distinctArr.filter(strObj => strObj.includes(language))
-      if (result.length > 0){
-        console.log(result)
-        
-        // this.setState({
-        //   languages: [...this.state.languages, result]
-        // })
+    let copiedStr = this.state.etymology[0][1]
+    let arr = copiedStr.split(" ")
+    /// ...new Set prevents duplicates
+    let currentLanguages = [...new Set(arr)]
+    let matchedLanguages = []
+
+    for (let i = 0; i < currentLanguages.length; i++) {
+      for (let j = 0; j < allTheLanguages.length; j++) {
+        let temp = allTheLanguages[j].split(", ")
+        if (currentLanguages[i] == temp[0]) {
+          matchedLanguages.push(allTheLanguages[j])
+          break
+        }
       }
+    }
+    this.setState({
+      languages: matchedLanguages
     })
   }
 
@@ -293,9 +296,8 @@ class WordInput extends Component {
     );
   }
 
-  
   render(){
-    console.log(this.state)
+    console.log("language state:", this.state.languages)
     return(
       <div>
         <h1>HELLO ENTER WORDS</h1>
