@@ -5,3 +5,10 @@ export const addWord = (word) => {
   }
 }
 
+export const addCoordinates = (coordinates) => {
+  return {
+    type: "ADD_COORDINATES",
+    payload: coordinates
+  }
+}
+

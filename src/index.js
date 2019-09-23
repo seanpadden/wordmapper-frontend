@@ -5,12 +5,14 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 
 //createStore is a function
-import { createStore } from 'redux'
+import { createStore, compose } from 'redux'
 import reducer from './Redux/reducer'
 
 import {Provider} from 'react-redux'
 
-const storeObj = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const storeObj = createStore(
+  reducer, 
+  compose(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()))
 
 
 ReactDOM.render(

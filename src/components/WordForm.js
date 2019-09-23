@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
-
-
+import {addCoordinates} from '../Redux/actions.js'
+import MapContainer from '../containers/MapContainer.js'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
@@ -227,7 +228,6 @@ const  languagesToCoordinates = [{
   French: {lat: 46.0000, lng: 2.0000},
   German: {lat: 51.1657, lng: 10.4515},
   Dutch: {lat: 52.1326, lng: 5.2913},
-  
 }]
 
 class WordInput extends Component {
@@ -250,6 +250,7 @@ class WordInput extends Component {
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
+    this.props.addWord(word)
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => this.setState({
@@ -281,48 +282,52 @@ class WordInput extends Component {
   }
 
   ///Finds origin country coordinates for each language!!!
-  chooseLanguage = () => {
-    let arr = []
+  getCoordinates = () => {
+    let coordinatesToRender = []
     let myLanguages = [...this.state.languages]
       myLanguages.map((lang => {
         let eachLanguage = lang
         for (let i=0; languagesToCoordinates.length; i++) {
           for (const language in languagesToCoordinates[i]) {
             if (language == eachLanguage) {
-              arr.push(languagesToCoordinates[i][language])
+              coordinatesToRender.push(languagesToCoordinates[i][language])
             }
           }
         break 
       }
     }))
     this.setState({
-      coordinates: arr
+      coordinates: coordinatesToRender
     })
+    this.props.addCoordinates(coordinatesToRender)
   }
 
   /// GEOCODING WORKING! JUST NEED LANGUAGE NAME TO CORRESPOND WITH COORDINATES.
-  getCoordinates = () => {
-    Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
-    Geocode.fromAddress("brazil").then(
-      response => {
-        const { lat, lng } = response.results[0].geometry.location;
-        console.log("lat:", lat, "lng:", lng)
-        this.setState({
-          currentLocation: {
-            lat: lat,
-            lng: lng
-          }
-        })
-      },
-      error => {
-        console.error(error);
-      }
-    );
+  // getCoordinates = () => {
+  //   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+  //   Geocode.fromAddress("brazil").then(
+  //     response => {
+  //       const { lat, lng } = response.results[0].geometry.location;
+  //       console.log("lat:", lat, "lng:", lng)
+  //       this.setState({
+  //         currentLocation: {
+  //           lat: lat,
+  //           lng: lng
+  //         }
+  //       })
+  //     },
+  //     error => {
+  //       console.error(error);
+  //     }
+  //   );
+  // }
+
+  sendToMap = () => {
+    this.props.history.push('/map')
   }
 
 
   render(){
-
     return(
       <div>
         <h1>HELLO ENTER WORDS</h1>
@@ -342,8 +347,8 @@ class WordInput extends Component {
           <button onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
-          <button onClick={this.getCoordinates}>Generate your map!</button>
-          <button onClick={this.chooseLanguage}>Choose Language</button>
+          <button onClick={this.getCoordinates}>Get coordinates</button>
+          <button onClick={this.sendToMap}>Generate your map!</button>
         </div>
       </div>
     )
@@ -362,4 +367,4 @@ class WordInput extends Component {
 ///Second arg of connect is to "SET" information
 
 /// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
-export default connect(null, {addWord})(WordInput)
+export default connect(null, {addWord, addCoordinates})(WordInput)
