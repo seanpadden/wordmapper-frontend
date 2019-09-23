@@ -3,20 +3,22 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom'
-
-//createStore is a function
-import { createStore, compose } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import reducer from './Redux/reducer'
-
 import {Provider} from 'react-redux'
+import thunk from 'redux-thunk'
 
-const storeObj = createStore(
-  reducer, 
-  compose(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()))
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const store = createStore(
+  reducer,
+  composeEnhancer(applyMiddleware(thunk)),
+);
+
+export default store;
 
 ReactDOM.render(
-<Provider store={storeObj}>
+<Provider store={store}>
   <BrowserRouter>
     <App />
   </BrowserRouter>

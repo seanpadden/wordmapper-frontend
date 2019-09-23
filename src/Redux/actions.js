@@ -1,3 +1,5 @@
+
+
 export const addWord = (word) => {
   return {
     type: "ADD_WORD",
@@ -12,3 +14,9 @@ export const addCoordinates = (coordinates) => {
   }
 }
 
+export const addEtymology = (etymology) => {
+  return {
+    type: "ADD_ETYMOLOGY",
+    payload: etymology 
+  }
+}
