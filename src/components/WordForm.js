@@ -4,6 +4,8 @@ import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 
+
+
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
 const allTheLanguages = [ 
@@ -223,7 +225,9 @@ const allTheLanguages = [
 const  languagesToCoordinates = [{
   English: {lat: 54.0000, lng: -2.0000},
   French: {lat: 46.0000, lng: 2.0000},
-  German: {lat: 51.1657, lng: 10.4515}
+  German: {lat: 51.1657, lng: 10.4515},
+  Dutch: {lat: 52.1326, lng: 5.2913},
+  
 }]
 
 class WordInput extends Component {
@@ -231,7 +235,9 @@ class WordInput extends Component {
   state = {
     word: "",
     etymology: [[]],
-    languages: []
+    languages: [],
+    coordinates: [],
+
   }
 
   handleChange = (e) => {
@@ -240,10 +246,10 @@ class WordInput extends Component {
     })
   }
 
+  ///Gets etymology from API
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
-    // this.props.addWord(word)
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => this.setState({
@@ -251,9 +257,7 @@ class WordInput extends Component {
     }))
   }
 
-  //// THIS COMPARES OUR LANGUAGE ARRAY AGAINST OUR ETYMOLOGY STRING.
-  //// IT WORKS, BUT IT'S ONLY RETURNING THE LAST THING. NEED TO FIGURE THAT OUT.
-  //// AFTER THAT, WE NEED TO CONVERT THE LANGUAGE NAME TO COINCIDE WITH COUNTRY NAME/COORDINATES
+  ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
     e.preventDefault()
     let copiedStr = this.state.etymology[0][1]
@@ -273,6 +277,26 @@ class WordInput extends Component {
     }
     this.setState({
       languages: matchedLanguages
+    })
+  }
+
+  ///Finds origin country coordinates for each language!!!
+  chooseLanguage = () => {
+    let arr = []
+    let myLanguages = [...this.state.languages]
+      myLanguages.map((lang => {
+        let eachLanguage = lang
+        for (let i=0; languagesToCoordinates.length; i++) {
+          for (const language in languagesToCoordinates[i]) {
+            if (language == eachLanguage) {
+              arr.push(languagesToCoordinates[i][language])
+            }
+          }
+        break 
+      }
+    }))
+    this.setState({
+      coordinates: arr
     })
   }
 
@@ -296,8 +320,9 @@ class WordInput extends Component {
     );
   }
 
+
   render(){
-    console.log("language state:", this.state.languages)
+
     return(
       <div>
         <h1>HELLO ENTER WORDS</h1>
@@ -318,6 +343,7 @@ class WordInput extends Component {
         </div>
         <div>
           <button onClick={this.getCoordinates}>Generate your map!</button>
+          <button onClick={this.chooseLanguage}>Choose Language</button>
         </div>
       </div>
     )
