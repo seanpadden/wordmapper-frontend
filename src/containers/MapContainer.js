@@ -21,13 +21,13 @@ const coordinates = [
 
 class MapContainer extends Component {
   render(){
-    console.log(this.props.currentLocation)
+
     const wordPositions = this.props.state.currentLocation.map((coord => 
       <Marker
         position={coord}
       />
     ))
-    console.log(this.props.state.currentLocation)
+    
     return(
       <div>
         <div>

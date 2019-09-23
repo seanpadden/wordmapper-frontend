@@ -3,9 +3,9 @@ const initialState = {
   etymology: [[]],
   languages: [],
   currentLocation: 
-  {
+  [{
     lat: 0, lng: 0
-  },
+  }],
   count: 0
 }
 
