@@ -6,6 +6,8 @@ import SignUpPage from './components/SignUpPage.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import WordForm from './components/WordForm.js'
 import MapContainer from './containers/MapContainer.js'
+import LoadingScreen from './components/LoadingScreen.js'
+import Word from './components/Word.js'
 
 
 
@@ -36,6 +38,7 @@ return (
     <Route path={'/signup'} component={SignUpPage} />
     <Route path={'/input'} component={WordForm} />
     <Route path={'/map'} component={MapContainer} />
+    <Route path={'/loading'} component={LoadingScreen} />
   </Switch>
   </div>
 )}

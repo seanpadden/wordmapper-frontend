@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
+import {removeWord} from '../Redux/actions.js'
+
 import {addCoordinates} from '../Redux/actions.js'
 import {addEtymology} from '../Redux/actions.js'
+import {addLanguages} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 
@@ -67,6 +70,7 @@ const allTheLanguages = [
   'English',
   'Esperanto',
   'Estonian',
+  'Egyptian',
   'Ewe',
   'Faroese',
   'Fijian',
@@ -80,6 +84,9 @@ const allTheLanguages = [
   'Ganda',
   'Georgian',
   'German',
+  'Germanic',
+  'Goth',
+  'Gothic',
   'Gikuyu', 
   'Kikuyu',
   'Greek',
@@ -149,6 +156,8 @@ const allTheLanguages = [
   'Nepali',
   'Northern Sami',
   'Norwegian',
+  'Nordic',
+  'Norse',
   'Norwegian Bokmål',
   'Norwegian Nynorsk',
   'Nuosu', 
@@ -170,6 +179,7 @@ const allTheLanguages = [
   'Quechua',
   'Romansh',
   'Rundi',
+  'Russian,',
   'Russian',
   'Samoan',
   'Sango',
@@ -227,9 +237,30 @@ const allTheLanguages = [
 
 const  languagesToCoordinates = [{
   English: {lat: 54.0000, lng: -2.0000},
+  "Anglo-French": {lat: 46.0000, lng: 2.0000},
   French: {lat: 46.0000, lng: 2.0000},
   German: {lat: 51.1657, lng: 10.4515},
+  Germanic: {lat: 51.1657, lng: 10.4515},
+  Goth: {lat: 51.1657, lng: 10.4515},
+  Gothic: {lat: 51.1657, lng: 10.4515},
   Dutch: {lat: 52.1326, lng: 5.2913},
+  Greek: {lat: 37.9838, lng: 23.7275},
+  Latin: {lat: 41.8719, lng: 12.5674},
+  Italian: {lat: 41.8719, lng: 12.5674},
+  Spanish: {lat: 40.4637, lng: 3.7492},
+  Castilian: {lat: 40.4637, lng: 3.7492},
+  Egyptian: {lat: 26.8206, lng: 30.8025},
+  Nordic: {lat: 60.4720, lng: 8.4689},
+  Norwegian: {lat: 60.4720, lng: 8.4689},
+  Norse: {lat: 60.4720, lng: 8.4689},
+  Arabic: {lat: 23.8859, lng: 45.0792},
+  Gaelic: {lat: 53.4129, lng: 8.2439},
+  "Russian,": {lat: 61.5240, lng: 105.3188},
+  Russian: {lat: 61.5240, lng: 105.3188},
+  Chinese: {lat: 35.8617, lng: 104.1954},
+  Sanskrit: {lat: 35.8617, lng: 104.1954}, 
+  Hindi: {lat: 20.5937, lng: 78.9629}
+
 }]
 
 class WordInput extends Component {
@@ -239,7 +270,7 @@ class WordInput extends Component {
     etymology: [[]],
     languages: [],
     coordinates: [],
-
+    wordNotFound: false
   }
 
   handleChange = (e) => {
@@ -252,17 +283,40 @@ class WordInput extends Component {
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
-    this.props.addWord(word)
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
-    .then(data => this.setState({
-      etymology: data[0].et
-    }))
+    // .then(data => this.setState({
+    //   etymology: data[0].et
+    // }))
+    .then(data => {
+      if (data[0].et === undefined) {
+        this.props.removeWord(e)
+        this.setState({
+          wordNotFound: true,
+          word: ""
+        })
+      } 
+      else  {
+      this.props.addWord(word)
+      this.props.addEtymology(data[0].et)
+
+      this.setState({
+        wordNotFound: false,
+        etymology: data[0].et
+      })
+    }
+  })
   }
 
   ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
     e.preventDefault()
+    if (this.props.state.word === ""){
+      alert("please enter a valid word")
+    }
+    else if (this.state.etymology[0][1] === "origin unknown") {
+      alert("Woops, no origin found for this one.")
+    } else {
     let copiedStr = this.state.etymology[0][1]
     let arr = copiedStr.split(" ")
     /// ...new Set prevents duplicates
@@ -278,9 +332,11 @@ class WordInput extends Component {
         }
       }
     }
+    this.props.addLanguages(matchedLanguages)
     this.setState({
       languages: matchedLanguages
     })
+  }
   }
 
   ///Finds origin country coordinates for each language!!!
@@ -325,12 +381,16 @@ class WordInput extends Component {
   // }
 
   sendToMap = () => {
-    this.props.addEtymology(this.state.etymology)
-    this.props.history.push('/map')
+    if (this.props.state.word !== "") {
+    this.props.history.push('/loading')
+    } else {
+      alert("you need a word for a map!")
+    }
   }
 
 
   render(){
+    console.log(this.state.languages)
     return(
       <div>
         <h1>HELLO ENTER WORDS</h1>
@@ -352,6 +412,12 @@ class WordInput extends Component {
         <div>
           <button onClick={this.getCoordinates}>Get coordinates</button>
           <button onClick={this.sendToMap}>Generate your map!</button>
+          </div>
+        <div>
+          {this.state.wordNotFound ? 
+          <h1>Sorry! Webster doesn't know this one -_- Try again?</h1>
+          :
+          null}
         </div>
       </div>
     )
@@ -366,8 +432,14 @@ class WordInput extends Component {
 //   }
 // }
 
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
+}
+
 ///First arg of connect is to "GET" information 
 ///Second arg of connect is to "SET" information
 
 /// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
-export default connect(null, {addWord, addCoordinates, addEtymology})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages})(WordInput)

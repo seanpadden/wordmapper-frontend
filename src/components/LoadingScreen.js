@@ -1,0 +1,24 @@
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import '../LoadingScreen.css'
+
+class LoadingScreen extends Component  {
+
+  state = {
+    done: undefined
+  }
+  componentDidMount(){
+    setTimeout(() => this.props.history.push('/map'), 5000);
+  }
+
+
+  render(){
+    return(
+      <div className="LoadingScreen-component">
+        <h1 style={{textAlign: 'center', color: 'white'}}>Please wait while we generate your map...</h1>
+      </div>
+    )
+  }
+}
+
+export default LoadingScreen

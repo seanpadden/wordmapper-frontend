@@ -7,6 +7,20 @@ export const addWord = (word) => {
   }
 }
 
+export const removeWord = () => {
+  return {
+    type: "REMOVE_WORD",
+    payload: ""
+  }
+}
+
+export const addLanguages = (languages) => {
+  return {
+    type: "ADD_LANGUAGES",
+    payload: languages
+  }
+}
+
 export const addCoordinates = (coordinates) => {
   return {
     type: "ADD_COORDINATES",
