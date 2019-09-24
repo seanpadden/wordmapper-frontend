@@ -11,7 +11,6 @@ import {addLanguages} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
 const allTheLanguages = [ 
@@ -388,7 +387,6 @@ class WordInput extends Component {
     }
   }
 
-
   render(){
     console.log(this.state.languages)
     return(
@@ -412,9 +410,10 @@ class WordInput extends Component {
         <div>
           <button onClick={this.getCoordinates}>Get coordinates</button>
           <button onClick={this.sendToMap}>Generate your map!</button>
-          </div>
+        </div>
         <div>
-          {this.state.wordNotFound ? 
+          {this.state.wordNotFound 
+          ? 
           <h1>Sorry! Webster doesn't know this one -_- Try again?</h1>
           :
           null}

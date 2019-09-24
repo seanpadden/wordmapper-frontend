@@ -38,27 +38,19 @@ class MapContainer extends Component {
     }
   };
 
-
-
   render(){
-
     const wordPositions = this.props.state.currentLocation.map((coord => 
-
       <Marker
         position={coord}
         onClick={this.onMarkerClick}
         animation={this.props.google.maps.Animation.DROP}
-
       />
-   
     ))
-    
     return(
       <div>
         <Sidebar/>
         <Word/>
-        <div>
-          
+        <div>      
           <Map 
             google={this.props.google}
             onClick={this.onMapClicked}
@@ -67,22 +59,21 @@ class MapContainer extends Component {
             initialCenter={{lat: 37.5647, lng: 49.1472}}
             // center={this.props.currentLocation}
           >
-
           <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
           >
             <div>
               <h1>"{this.props.state.word}"</h1>
               <p>{this.props.state.etymology}</p>
             </div>
-        </InfoWindow>
-        <Polyline
-          path={this.props.state.currentLocation}
-          strokeColor="#0000FF"
-          strokeOpacity={0.8}
-          strokeWeight={2} />
-          {wordPositions}
+          </InfoWindow>
+          <Polyline
+            path={this.props.state.currentLocation}
+            strokeColor="#0000FF"
+            strokeOpacity={0.8}
+            strokeWeight={2} />
+            {wordPositions}
           </Map>
         </div>
       </div>
