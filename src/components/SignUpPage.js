@@ -16,21 +16,6 @@ class SignUpPage extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.userPostFetch(this.state, this.props.history)
-    // fetch('http://localhost:3000/signup', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(this.state)
-    // })
-    // .then(res => res.json())
-    // .then(data => {
-    //   if (data.token) {
-    //     localStorage.token = data.token
-    //     this.props.history.push('/profile')
-    //   }
-    // })
   }
 
   render() {
