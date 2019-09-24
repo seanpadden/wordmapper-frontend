@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 
 class ProfilePage extends Component {
   handleClick = () => {
@@ -7,12 +9,13 @@ class ProfilePage extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div>
         <button onClick={this.handleClick}>Logout</button>
         {
-          this.props.currentUser ?
-          <h1>Welcome {this.props.currentUser}!</h1> :
+          this.props.state.currentUser ?
+          <h1>Welcome {this.props.state.currentUser}!</h1> :
           <h1>getting your info...</h1>
         }
       </div>
@@ -20,4 +23,10 @@ class ProfilePage extends Component {
   }
 }
 
-export default ProfilePage;
+const mapStateToProps = (state) => {
+  return {
+    state 
+  }
+}
+
+export default connect(mapStateToProps, null)(ProfilePage)
