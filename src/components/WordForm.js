@@ -4,8 +4,10 @@ import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {addCoordinates} from '../Redux/actions.js'
+import {addEtymology} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
+
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
@@ -323,6 +325,7 @@ class WordInput extends Component {
   // }
 
   sendToMap = () => {
+    this.props.addEtymology(this.state.etymology)
     this.props.history.push('/map')
   }
 
@@ -367,4 +370,4 @@ class WordInput extends Component {
 ///Second arg of connect is to "SET" information
 
 /// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
-export default connect(null, {addWord, addCoordinates})(WordInput)
+export default connect(null, {addWord, addCoordinates, addEtymology})(WordInput)
