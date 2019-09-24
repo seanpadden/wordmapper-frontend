@@ -16,7 +16,7 @@ const reducer = (state = initialState, action ) => {
     case "ADD_ETYMOLOGY": 
       return {...state, etymology: action.payload}
     case 'CREATE_USER':
-      console.log("Hello from the reducer i'm working")
+      console.log("HERE IS THE CURRENT USER:", action.payload)
       return {...state, currentUser: action.payload}
     default: 
       return state

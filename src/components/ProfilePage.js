@@ -3,17 +3,16 @@ import React, { Component } from 'react';
 class ProfilePage extends Component {
   handleClick = () => {
     localStorage.clear()
-    this.props.history.push('/login')
+    this.props.history.push('/signup')
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <button onClick={this.handleClick}>Logout</button>
         {
-          this.props.username ?
-          <h1>Welcome {this.props.username}!</h1> :
+          this.props.currentUser ?
+          <h1>Welcome {this.props.currentUser}!</h1> :
           <h1>getting your info...</h1>
         }
       </div>

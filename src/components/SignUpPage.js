@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { createUser } from '../Redux/userActions.js'
+import { userPostFetch } from '../Redux/userActions.js'
 
 
 class SignUpPage extends Component {
@@ -15,7 +15,7 @@ class SignUpPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.createUser(this.state)
+    this.props.userPostFetch(this.state, this.props.history)
     // fetch('http://localhost:3000/signup', {
     //   method: 'POST',
     //   headers: {
@@ -34,7 +34,6 @@ class SignUpPage extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         <h1>Sign Up!</h1>
@@ -49,7 +48,7 @@ class SignUpPage extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  createUser: (userObj) => dispatch(createUser(userObj))
+  userPostFetch: (userObj, history) => dispatch(userPostFetch(userObj, history))
 })
 
 export default connect(null, mapDispatchToProps)(SignUpPage)
