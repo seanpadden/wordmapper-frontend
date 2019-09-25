@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {connect} from 'react-redux'
 import { compose } from 'redux'
 import Sidebar from './Sidebar.js'
+import Word from '../components/Word.js'
+import Navbar from '../components/Navbar'
 
-import { Map, GoogleApiWrapper, InfoWindow, Marker, Polyline } from 'google-maps-react';
+import { Map, GoogleApiWrapper, InfoWindow, Marker, Polyline, Animation } from 'google-maps-react';
 
 const mapStyles = {
   position: 'relative',
@@ -14,44 +16,66 @@ const mapStyles = {
   border: 'solid 2px black',
 };
 
-const coordinates = [
-  {lat: 0, lng: 3},
-  {lat: 3, lng: 5},
-  {lat: 69, lng: 420}
-]
-
 class MapContainer extends Component {
-  render(){
-    const triangleCoords = [
-      {lat: 0, lng: 3},
-      {lat: 3, lng: 5},
-      {lat: 69, lng: 420}
-    ];
+  state = {
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
+  };
+ 
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+ 
+  onMapClicked = (props) => {
+    if (this.state.showingInfoWindow) {
+      this.setState({
+        showingInfoWindow: false,
+        activeMarker: null
+      })
+    }
+  };
 
+  render(){
     const wordPositions = this.props.state.currentLocation.map((coord => 
       <Marker
         position={coord}
+        onClick={this.onMarkerClick}
+        animation={this.props.google.maps.Animation.DROP}
       />
     ))
-    
     return(
       <div>
+        <Navbar/>
         <Sidebar/>
-        <div>
-          Your word is...{this.props.state.word}
+        <Word/>
+        <div>      
           <Map 
             google={this.props.google}
+            onClick={this.onMapClicked}
             zoom={3}
             style={mapStyles}
             initialCenter={{lat: 37.5647, lng: 49.1472}}
             // center={this.props.currentLocation}
-            yesIWantToUseGoogleMapApiInternals={true}>
+          >
+          <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showingInfoWindow}
+          >
+            <div>
+              <h1>"{this.props.state.word}"</h1>
+              <p>{this.props.state.etymology}</p>
+            </div>
+          </InfoWindow>
           <Polyline
-            paths={triangleCoords}
+            path={this.props.state.currentLocation}
             strokeColor="#0000FF"
+            strokeOpacity={0.8}
             strokeWeight={2} />
-
-          {wordPositions}
+            {wordPositions}
           </Map>
         </div>
       </div>

@@ -1,0 +1,9 @@
+.LoadingScreen-component {
+  background-image: url("https://media.giphy.com/media/ZW44yxLZRDdNS/giphy.gif");
+  background-color: rgb(68, 30, 90);
+  background-size: contain; 
+  background-position: center;
+  position: absolute;
+  width: 100%; 
+  height: 100vh
+}

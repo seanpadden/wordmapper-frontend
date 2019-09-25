@@ -1,9 +1,21 @@
-
-
 export const addWord = (word) => {
   return {
     type: "ADD_WORD",
     payload: word
+  }
+}
+
+export const removeWord = () => {
+  return {
+    type: "REMOVE_WORD",
+    payload: ""
+  }
+}
+
+export const addLanguages = (languages) => {
+  return {
+    type: "ADD_LANGUAGES",
+    payload: languages
   }
 }
 

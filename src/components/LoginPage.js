@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { userLoginFetch } from '../Redux/userActions.js'
 
 
 class LoginPage extends Component {
@@ -13,21 +15,7 @@ class LoginPage extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:3000/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.token) {
-        localStorage.token = data.token
-        this.props.history.push('/input')
-      }
-    })
+    this.props.userLoginFetch(this.state, this.props.history)
   }
 
   render() {
@@ -37,11 +25,21 @@ class LoginPage extends Component {
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.handleChange} value={this.state.username} type="text" name="username"/>
           <input onChange={this.handleChange} value={this.state.password} type="text" name="password"/>
-          <input type="submit" value="Log in"/>
+          <input type="submit" value="Please login!"/>
         </form>
       </div>
-    );
+    )
   }
 }
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => ({
+  userLoginFetch: (userObj, history) => dispatch(userLoginFetch(userObj, history))
+})
+
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage)
