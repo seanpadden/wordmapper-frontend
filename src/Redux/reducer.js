@@ -1,5 +1,5 @@
 const initialState = {
-  currentUser: {},
+  currentUser: "",
   word: '',
   etymology: [[]],
   languages: [],
@@ -23,6 +23,8 @@ const reducer = (state = initialState, action ) => {
       return {...state, currentUser: action.payload}
     case 'LOGIN_USER':
       return {...state, currentUser: action.payload}
+    case 'LOGOUT_USER':
+      return {...state, currentUser: ""}
     default: 
       return state
   }

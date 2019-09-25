@@ -269,8 +269,20 @@ class WordInput extends Component {
     etymology: [[]],
     languages: [],
     coordinates: [],
-    wordNotFound: false
+    wordNotFound: false,
+    username: ''
   }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/profile',{
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    })
+    .then(res => res.json())
+    .then(user => this.setState({username: user.username}))
+  }
+
 
   handleChange = (e) => {
     this.setState({
@@ -391,7 +403,12 @@ class WordInput extends Component {
     console.log(this.state.languages)
     return(
       <div>
-        <h1>HELLO ENTER WORDS</h1>
+        {
+          this.state.username ?
+          <h1>Hi {this.state.username}, enter a word plz</h1> :
+          <h1>Login first plz</h1>
+        }
+        {/* <h1>Hi, {this.props.state.currentUser}. Enter a word.</h1> */}
         <form>
           <input 
             type="text" 
@@ -399,16 +416,20 @@ class WordInput extends Component {
             onChange={this.handleChange}
             name="word"
           /> 
+          <br />
           <input 
             type="submit"
             onClick={this.lookUpWord}
           />
         </form>
         <div>
+        <br />
           <button onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
+        <br />
           <button onClick={this.getCoordinates}>Get coordinates</button>
+          <br />
           <button onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>

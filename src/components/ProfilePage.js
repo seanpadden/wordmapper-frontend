@@ -3,9 +3,28 @@ import {connect} from 'react-redux';
 
 
 class ProfilePage extends Component {
+
+  state = {
+    username: ''
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/profile',{
+      headers: {
+        'Authorization': `Bearer ${localStorage.token}`
+      }
+    })
+    .then(res => res.json())
+    .then(user => 
+      this.setState({
+        username: user.username
+      })
+    )
+  }
+
   handleClick = () => {
     localStorage.clear()
-    this.props.history.push('/signup')
+    this.props.history.push('/login')
   }
 
   render() {
@@ -14,9 +33,9 @@ class ProfilePage extends Component {
       <div>
         <button onClick={this.handleClick}>Logout</button>
         {
-          this.props.state.currentUser ?
-          <h1>Welcome {this.props.state.currentUser}!</h1> :
-          <h1>getting your info...</h1>
+          this.state.username ?
+          <h1>{this.state.username}'s profile</h1> :
+          <h1>How did you get you get here?!? Login!</h1>
         }
       </div>
     );

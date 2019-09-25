@@ -16,7 +16,7 @@ export const userPostFetch = (user, history) => {
         else {
           localStorage.setItem("token", data.jwt)
           dispatch(createUser(data.user.username))
-          history.push('/profile')
+          history.push('/input')
         }
       }
       )
@@ -35,24 +35,32 @@ export const userLoginFetch = (user, history) => {
     })
       .then(resp => resp.json())
       .then(data => {
-        if (data.message) {
-          alert(data.message)
+        debugger 
+        if (data.errors) {
+          alert("Wrong username or password.")
         } 
         else  {
         localStorage.token = data.token
         dispatch(loginUser(data.user.username))
-        history.push('/profile')
+        history.push('/input')
       }
     })
   } 
 }
 
-const createUser = userObj => ({
+const createUser = (userObj) => ({
   type: 'CREATE_USER',
   payload: userObj
 })
 
-const loginUser = userObj => ({
+const loginUser = (userObj) => ({
   type: 'LOGIN_USER',
   payload: userObj
 })
+
+export const logoutUser = () => {
+  return {
+    type: 'LOGOUT_USER',
+    payload: ""
+  }
+}
