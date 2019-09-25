@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import { compose } from 'redux'
 import Sidebar from './Sidebar.js'
 import Word from '../components/Word.js'
+import Navbar from '../components/Navbar'
 
 import { Map, GoogleApiWrapper, InfoWindow, Marker, Polyline, Animation } from 'google-maps-react';
 
@@ -48,6 +49,7 @@ class MapContainer extends Component {
     ))
     return(
       <div>
+        <Navbar/>
         <Sidebar/>
         <Word/>
         <div>      

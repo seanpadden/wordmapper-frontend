@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import Word from './components/Word'
+// import Word from '../components/Word'
 import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
@@ -10,6 +10,7 @@ import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
@@ -403,6 +404,7 @@ class WordInput extends Component {
     console.log(this.state.languages)
     return(
       <div>
+        <Navbar />
         {
           this.state.username ?
           <h1>Hi {this.state.username}, enter a word plz</h1> :
