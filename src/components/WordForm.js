@@ -306,15 +306,7 @@ class WordInput extends Component {
     username: ''
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/profile',{
-      headers: {
-        'Authorization': `Bearer ${localStorage.token}`
-      }
-    })
-    .then(res => res.json())
-    .then(user => this.setState({username: user.username}))
-  }
+
 
 
   handleChange = (e) => {
@@ -433,13 +425,13 @@ class WordInput extends Component {
   }
 
   render(){
-    console.log(this.state.languages)
+
     return(
       <div className="WordForm-component">
         <Navbar />
         {
-          this.state.username ?
-          <h1>Hi {this.state.username}, enter a word plz</h1> :
+          this.props.state.currentUser ?
+          <h1>Hi {this.props.state.currentUser.username}, enter a word plz</h1> :
           <h1>Login first plz</h1>
         }
         {/* <h1>Hi, {this.props.state.currentUser}. Enter a word.</h1> */}

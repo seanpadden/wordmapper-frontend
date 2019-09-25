@@ -1,5 +1,5 @@
 const initialState = {
-  currentUser: "",
+  currentUser: {},
   word: '',
   etymology: [[]],
   languages: [],
@@ -7,7 +7,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action ) => {
-  console.log('INIT STATE: ', state, 'ACTION ', action)
   switch (action.type) {
     case "ADD_WORD":
       return {...state, word: action.payload}
@@ -24,7 +23,7 @@ const reducer = (state = initialState, action ) => {
     case 'LOGIN_USER':
       return {...state, currentUser: action.payload}
     case 'LOGOUT_USER':
-      return {...state, currentUser: ""}
+      return {...state, currentUser: {}}
     default: 
       return state
   }

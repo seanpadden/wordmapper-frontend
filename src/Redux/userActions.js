@@ -10,13 +10,13 @@ export const userPostFetch = (user, history) => {
     })
       .then(resp => resp.json())
       .then(data => {
-        if (data.errors) {
-          alert(data.message)
+        if (!data.message) {
+          localStorage.setItem("token", data.jwt)
+          dispatch(createUser(data.user))
+          history.push('/input')
         } 
         else {
-          localStorage.setItem("token", data.token)
-          dispatch(createUser(data.user.username))
-          history.push('/input')
+          alert("Username already exists. Plz try again")
         }
       }
       )
@@ -33,19 +33,45 @@ export const userLoginFetch = (user, history) => {
       },
       body: JSON.stringify(user)
     })
-      .then(resp => resp.json())
-      .then(data => {
-        if (data.errors) {
-          alert("Wrong username or password.")
-        } 
-        else  {
-        localStorage.token = data.token
-        dispatch(loginUser(data.user.username))
+    .then(resp => resp.json())
+    .then(data => {
+      if (!data.message) {
+        localStorage.token = data.jwt
+        dispatch(loginUser(data.user))
         history.push('/input')
+      }
+      else  {
+        alert("FUCK JWT")
+        localStorage.clear()
       }
     })
   } 
 }
+
+// export const userLoginFetch = (user, history) => {
+//   return dispatch => {
+
+//     fetch('http://localhost:3000/login', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json'
+//       },
+//       body: JSON.stringify(user)
+//     })
+//       .then(resp => resp.json())
+//       .then(data => {
+//         if (data.errors) {
+//           alert("Wrong username or password.")
+//         } 
+//         else  {
+//           localStorage.token = data.token
+//           dispatch(loginUser(data.user.username))
+//           history.push('/input')
+//       }
+//     })
+//   } 
+// }
 
 const createUser = (userObj) => ({
   type: 'CREATE_USER',
