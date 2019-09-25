@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import Navbar from './Navbar.js'
 
 
 class ProfilePage extends Component {
@@ -22,16 +23,11 @@ class ProfilePage extends Component {
     )
   }
 
-  handleClick = () => {
-    localStorage.clear()
-    this.props.history.push('/login')
-  }
-
   render() {
     console.log(this.props)
     return (
       <div>
-        <button onClick={this.handleClick}>Logout</button>
+      <Navbar />
         {
           this.state.username ?
           <h1>{this.state.username}'s profile</h1> :

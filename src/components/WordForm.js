@@ -10,7 +10,8 @@ import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
-import Navbar from '../components/Navbar'
+import Navbar from './Navbar'
+import '../WordForm.css'
 
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
@@ -65,9 +66,11 @@ const allTheLanguages = [
   'Dhivehi', 
   'Maldivian',
   'Dutch', 
+  'Dutch,',
   'Flemish',
   'Dzongkha',
   'English',
+  'English,',
   'Esperanto',
   'Estonian',
   'Egyptian',
@@ -75,7 +78,10 @@ const allTheLanguages = [
   'Faroese',
   'Fijian',
   'Finnish',
+  "Anglo-French",
+  "Anglo-French,",
   'French',
+  'French,',
   'Fulah',
   'Gaelic', 
   'Scottish', 
@@ -87,6 +93,10 @@ const allTheLanguages = [
   'Germanic',
   'Goth',
   'Gothic',
+  'German,',
+  'Germanic,',
+  'Goth,',
+  'Gothic,',
   'Gikuyu', 
   'Kikuyu',
   'Greek',
@@ -237,29 +247,51 @@ const allTheLanguages = [
 
 const  languagesToCoordinates = [{
   English: {lat: 54.0000, lng: -2.0000},
+  "English,": {lat: 54.0000, lng: -2.0000},
   "Anglo-French": {lat: 46.0000, lng: 2.0000},
+  "Anglo-French,": {lat: 46.0000, lng: 2.0000},
   French: {lat: 46.0000, lng: 2.0000},
+  "French,": {lat: 46.0000, lng: 2.0000},
   German: {lat: 51.1657, lng: 10.4515},
+  "German,": {lat: 51.1657, lng: 10.4515},
   Germanic: {lat: 51.1657, lng: 10.4515},
+  "Germanic,": {lat: 51.1657, lng: 10.4515},
   Goth: {lat: 51.1657, lng: 10.4515},
+  "Goth,": {lat: 51.1657, lng: 10.4515},
   Gothic: {lat: 51.1657, lng: 10.4515},
+  "Gothic,": {lat: 51.1657, lng: 10.4515},
   Dutch: {lat: 52.1326, lng: 5.2913},
+  "Dutch,": {lat: 52.1326, lng: 5.2913},
   Greek: {lat: 37.9838, lng: 23.7275},
+  "Greek,": {lat: 37.9838, lng: 23.7275},
   Latin: {lat: 41.8719, lng: 12.5674},
+  "Latin,": {lat: 41.8719, lng: 12.5674},
   Italian: {lat: 41.8719, lng: 12.5674},
+  "Italian,": {lat: 41.8719, lng: 12.5674},
   Spanish: {lat: 40.4637, lng: 3.7492},
+  "Spanish,": {lat: 40.4637, lng: 3.7492},
   Castilian: {lat: 40.4637, lng: 3.7492},
+  "Castilian,": {lat: 40.4637, lng: 3.7492},
   Egyptian: {lat: 26.8206, lng: 30.8025},
+  "Egyptian,": {lat: 26.8206, lng: 30.8025},
   Nordic: {lat: 60.4720, lng: 8.4689},
+  "Nordic,": {lat: 60.4720, lng: 8.4689},
   Norwegian: {lat: 60.4720, lng: 8.4689},
+  "Norwegian,": {lat: 60.4720, lng: 8.4689},
   Norse: {lat: 60.4720, lng: 8.4689},
+  "Norse,": {lat: 60.4720, lng: 8.4689},
   Arabic: {lat: 23.8859, lng: 45.0792},
+  "Arabic,": {lat: 23.8859, lng: 45.0792},
   Gaelic: {lat: 53.4129, lng: 8.2439},
-  "Russian,": {lat: 61.5240, lng: 105.3188},
+  'Gaelic,': {lat: 53.4129, lng: 8.2439},
   Russian: {lat: 61.5240, lng: 105.3188},
+  "Russian,": {lat: 61.5240, lng: 105.3188},
   Chinese: {lat: 35.8617, lng: 104.1954},
+  "Chinese,": {lat: 35.8617, lng: 104.1954},
   Sanskrit: {lat: 35.8617, lng: 104.1954}, 
-  Hindi: {lat: 20.5937, lng: 78.9629}
+  "Sanskrit,": {lat: 35.8617, lng: 104.1954}, 
+  Hindi: {lat: 20.5937, lng: 78.9629},
+  "Hindi,": {lat: 20.5937, lng: 78.9629}
 
 }]
 
@@ -403,7 +435,7 @@ class WordInput extends Component {
   render(){
     console.log(this.state.languages)
     return(
-      <div>
+      <div className="WordForm-component">
         <Navbar />
         {
           this.state.username ?
@@ -432,7 +464,7 @@ class WordInput extends Component {
         <br />
           <button onClick={this.getCoordinates}>Get coordinates</button>
           <br />
-          <button onClick={this.sendToMap}>Generate your map!</button>
+          <button className="btn-success" onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>
           {this.state.wordNotFound 
