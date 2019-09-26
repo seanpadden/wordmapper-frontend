@@ -32,3 +32,16 @@ export const addEtymology = (etymology) => {
     payload: etymology 
   }
 }
+
+export const addDate = (date) => {
+  return {
+    type: "ADD_DATE",
+    payload: date 
+  }
+}
+export const addDefinition = (definition) => {
+  return {
+    type: "ADD_DEFINITION",
+    payload: definition 
+  }
+}

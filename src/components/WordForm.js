@@ -8,6 +8,8 @@ import {removeWord} from '../Redux/actions.js'
 import {addCoordinates} from '../Redux/actions.js'
 import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
+import {addDate} from '../Redux/actions.js'
+import {addDefinition} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -364,7 +366,10 @@ class WordInput extends Component {
         })
       } 
       else  {
+        debugger 
         this.props.addWord(word)
+        this.props.addDate(data[0].date)
+        this.props.addDefinition(data[0].shortdef)
         this.props.addEtymology(data[0].et)
         this.increaseBar()
         this.renderSecondButton()
@@ -380,6 +385,9 @@ class WordInput extends Component {
     // e.preventDefault()
     if (this.props.state.word === ""){
       alert("please enter a valid word")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
     }
     else if (this.props.state.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
@@ -408,8 +416,10 @@ class WordInput extends Component {
   ///Finds origin country coordinates for each language!!!
   getCoordinates = () => {
     if (this.props.state.languages.length === 0){
-      console.log('yo')
-      alert("We dunno where that one comes from tbh")
+      alert("We dunno where that one comes from tbh - try a different one!")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
     } 
     else {
     let coordinatesToRender = []
@@ -435,6 +445,9 @@ class WordInput extends Component {
   sendToMap = () => {
     if (this.state.hasCoordinates === false) {
       alert("No location(s) to show you. Try again!")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
     } else {
       this.props.history.push('/loading')
     }
@@ -453,27 +466,28 @@ class WordInput extends Component {
   }
 
   render(){
-    console.log(this.props.state.currentLocation[0])
     return(
       <div className="WordForm-component">
         <Navbar />
         {
           this.props.state.currentUser.username ?
-          <h1>Hi {this.props.state.currentUser.username}, enter a word plz</h1> :
-          <h1>Login first plz</h1>
+          <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
+          <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        <form  >
+        <form>
           <input className="btn-success"
             type="text" 
             value={this.state.word} 
             onChange={this.handleChange}
             name="word"
           /> 
-          <br />
+        <br />
+        <br />
           <input 
             className="btn-success"
             type="submit"
             onClick={this.lookUpWord}
+            
           />
         </form>
         <div>
@@ -485,7 +499,6 @@ class WordInput extends Component {
           <button className={`btn-success fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
           <br />
           <br />
-
           <button className={`btn-success fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>
@@ -500,8 +513,6 @@ class WordInput extends Component {
             <ProgressBar percentage={this.state.percentage} />
           </ProgressBarContainer>
         </InputWrapper>
-
-
       </div>
     )
   }
@@ -513,4 +524,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition})(WordInput)
