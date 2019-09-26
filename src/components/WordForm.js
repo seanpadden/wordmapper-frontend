@@ -55,6 +55,7 @@ const allTheLanguages = [
   'Church Slavonic', 
   'Old Bulgarian', 
   'Old Church Slavonic',
+  'Slavonic',
   'Chuvash',
   'Cornish',
   'Corsican',
@@ -291,7 +292,11 @@ const  languagesToCoordinates = [{
   Sanskrit: {lat: 35.8617, lng: 104.1954}, 
   "Sanskrit,": {lat: 35.8617, lng: 104.1954}, 
   Hindi: {lat: 20.5937, lng: 78.9629},
-  "Hindi,": {lat: 20.5937, lng: 78.9629}
+  "Hindi,": {lat: 20.5937, lng: 78.9629},
+  "Old Church Slavonic": {lat: 48.6690, lng: 19.6990},
+  "Old Church Slavonic,": {lat: 48.6690, lng: 19.6990},
+  Slavonic: {lat: 48.6690, lng: 19.6990}
+
 
 }]
 
@@ -312,7 +317,31 @@ class WordInput extends Component {
     wordNotFound: false,
     username: '',
     percentage: 0,
-    hasCoordinates: false 
+    hasCoordinates: false,
+    btn1: 'is-paused',
+    btn2: 'is-paused',
+    btn3: 'is-paused'
+  }
+  
+  renderSecondButton = () => {
+    this.setState({
+      btn1: ""
+    })
+  }
+
+  renderThirdButton = () => {
+    this.setState({
+      btn2: ""
+    })
+  }
+  renderFourthButton = () => {
+    this.setState({
+      btn3: ""
+    })
+  }
+
+  componentDidMount(){
+    this.props.removeWord()
   }
 
   handleChange = (e) => {
@@ -338,14 +367,12 @@ class WordInput extends Component {
         this.props.addWord(word)
         this.props.addEtymology(data[0].et)
         this.increaseBar()
+        this.renderSecondButton()
         this.setState({
           wordNotFound: false,
         })
       }
     })
-    // .then(setTimeout(() => this.compareLanguages(), 2500))
-    // .then(setTimeout(() => this.getCoordinates(), 2500))
-    // .then(setTimeout(() => this.sendToMap(), 2500))
   }
 
   ///Extracts languages from etymology string and returns an array of languages
@@ -374,6 +401,7 @@ class WordInput extends Component {
     }
     this.props.addLanguages(matchedLanguages)
     this.increaseBar()
+    this.renderThirdButton()
   }
   }
 
@@ -399,7 +427,8 @@ class WordInput extends Component {
     }))
     this.props.addCoordinates(coordinatesToRender)
     this.increaseBar()
-    this.dumb()
+    this.setCoordinates()
+    this.renderFourthButton()
     }
   }
 
@@ -411,7 +440,7 @@ class WordInput extends Component {
     }
   }
 
-  dumb = () => {
+  setCoordinates = () => {
     this.setState({
       hasCoordinates: true
     })
@@ -433,30 +462,31 @@ class WordInput extends Component {
           <h1>Hi {this.props.state.currentUser.username}, enter a word plz</h1> :
           <h1>Login first plz</h1>
         }
-        <form >
-          <input 
+        <form  >
+          <input className="btn-success"
             type="text" 
             value={this.state.word} 
             onChange={this.handleChange}
             name="word"
           /> 
           <br />
-          <input className="btn-success"
+          <input 
+            className="btn-success"
             type="submit"
             onClick={this.lookUpWord}
           />
         </form>
         <div>
         <br />
-          <button className="btn-success" onClick={this.compareLanguages}>Find Lanuages</button>
+          <button className={`btn-success fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
         <br />
-          <button className="btn-success" onClick={this.getCoordinates}>Get coordinates</button>
+          <button className={`btn-success fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
           <br />
           <br />
 
-          <button className="btn-success" onClick={this.sendToMap}>Generate your map!</button>
+          <button className={`btn-success fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>
           {this.state.wordNotFound 
@@ -470,6 +500,7 @@ class WordInput extends Component {
             <ProgressBar percentage={this.state.percentage} />
           </ProgressBarContainer>
         </InputWrapper>
+
 
       </div>
     )

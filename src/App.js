@@ -10,7 +10,7 @@ import LoadingScreen from './components/LoadingScreen.js'
 import Word from './components/Word.js'
 import Navbar from './components/Navbar.js'
 import LogOut from './components/LogOut.js'
-
+import Fade from './components/Fade.js'
   
 class App extends Component {
 
@@ -27,6 +27,7 @@ return (
       <Route path={'/map'} component={MapContainer} />
       <Route path={'/loading'} component={LoadingScreen} />
       <Route path={'/logout'} component={LogOut} />
+      <Route path={'/test'} component={Fade}/>
     </Switch>
   </div>
 )}

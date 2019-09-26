@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {removeWord} from '../Redux/actions.js'
 import '../App.css'
 import { NavLink } from 'react-router-dom'
 
@@ -10,8 +11,8 @@ class Sidebar extends Component {
     return(
       <div className="sidenav">
         <button>hi</button>
-        <NavLink to="/input">Go Back</NavLink>
-        <NavLink to="/profile">Profile</NavLink>
+        <NavLink to="/input" >Go Back</NavLink>
+        <NavLink to="/profile" >Profile</NavLink>
 
 
       </div>
@@ -19,4 +20,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar
+export default connect(null, {removeWord})(Sidebar)
