@@ -10,7 +10,6 @@ import LoadingScreen from './components/LoadingScreen.js'
 import Word from './components/Word.js'
 import Navbar from './components/Navbar.js'
 import LogOut from './components/LogOut.js'
-
   
 class App extends Component {
 

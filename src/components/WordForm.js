@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-// import Word from '../components/Word'
+import ProgressBar from '../components/ProgressBar'
+import styled from 'styled-components'
 import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {removeWord} from '../Redux/actions.js'
-
 import {addCoordinates} from '../Redux/actions.js'
 import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
+import {addDate} from '../Redux/actions.js'
+import {addDefinition} from '../Redux/actions.js'
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import Navbar from './Navbar'
@@ -55,6 +57,7 @@ const allTheLanguages = [
   'Church Slavonic', 
   'Old Bulgarian', 
   'Old Church Slavonic',
+  'Slavonic',
   'Chuvash',
   'Cornish',
   'Corsican',
@@ -291,23 +294,57 @@ const  languagesToCoordinates = [{
   Sanskrit: {lat: 35.8617, lng: 104.1954}, 
   "Sanskrit,": {lat: 35.8617, lng: 104.1954}, 
   Hindi: {lat: 20.5937, lng: 78.9629},
-  "Hindi,": {lat: 20.5937, lng: 78.9629}
+  "Hindi,": {lat: 20.5937, lng: 78.9629},
+  "Old Church Slavonic": {lat: 48.6690, lng: 19.6990},
+  "Old Church Slavonic,": {lat: 48.6690, lng: 19.6990},
+  Slavonic: {lat: 48.6690, lng: 19.6990}
+
 
 }]
+
+const InputWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const ProgressBarContainer = styled.div`
+  width: 300px;
+  margin-top: 200px
+`
 
 class WordInput extends Component {
 
   state = {
-    word: "",
-    etymology: [[]],
-    languages: [],
-    coordinates: [],
+    word: '',
     wordNotFound: false,
-    username: ''
+    username: '',
+    percentage: 0,
+    hasCoordinates: false,
+    btn1: 'is-paused',
+    btn2: 'is-paused',
+    btn3: 'is-paused'
+  }
+  
+  renderSecondButton = () => {
+    this.setState({
+      btn1: ""
+    })
   }
 
+  renderThirdButton = () => {
+    this.setState({
+      btn2: ""
+    })
+  }
+  renderFourthButton = () => {
+    this.setState({
+      btn3: ""
+    })
+  }
 
-
+  componentDidMount(){
+    this.props.removeWord()
+  }
 
   handleChange = (e) => {
     this.setState({
@@ -321,39 +358,41 @@ class WordInput extends Component {
     let word = this.state.word
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
-    // .then(data => this.setState({
-    //   etymology: data[0].et
-    // }))
     .then(data => {
       if (data[0].et === undefined) {
         this.props.removeWord(e)
         this.setState({
           wordNotFound: true,
-          word: ""
         })
       } 
       else  {
-      this.props.addWord(word)
-      this.props.addEtymology(data[0].et)
-
-      this.setState({
-        wordNotFound: false,
-        etymology: data[0].et
-      })
-    }
-  })
+        debugger 
+        this.props.addWord(word)
+        this.props.addDate(data[0].date)
+        this.props.addDefinition(data[0].shortdef)
+        this.props.addEtymology(data[0].et)
+        this.increaseBar()
+        this.renderSecondButton()
+        this.setState({
+          wordNotFound: false,
+        })
+      }
+    })
   }
 
   ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     if (this.props.state.word === ""){
       alert("please enter a valid word")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
     }
-    else if (this.state.etymology[0][1] === "origin unknown") {
+    else if (this.props.state.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
     } else {
-    let copiedStr = this.state.etymology[0][1]
+    let copiedStr = this.props.state.etymology[0][1]
     let arr = copiedStr.split(" ")
     /// ...new Set prevents duplicates
     let currentLanguages = [...new Set(arr)]
@@ -369,16 +408,22 @@ class WordInput extends Component {
       }
     }
     this.props.addLanguages(matchedLanguages)
-    this.setState({
-      languages: matchedLanguages
-    })
+    this.increaseBar()
+    this.renderThirdButton()
   }
   }
 
   ///Finds origin country coordinates for each language!!!
   getCoordinates = () => {
+    if (this.props.state.languages.length === 0){
+      alert("We dunno where that one comes from tbh - try a different one!")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
+    } 
+    else {
     let coordinatesToRender = []
-    let myLanguages = [...this.state.languages]
+    let myLanguages = [...this.props.state.languages]
       myLanguages.map((lang => {
         let eachLanguage = lang
         for (let i=0; languagesToCoordinates.length; i++) {
@@ -390,73 +435,71 @@ class WordInput extends Component {
         break 
       }
     }))
-    this.setState({
-      coordinates: coordinatesToRender
-    })
     this.props.addCoordinates(coordinatesToRender)
-  }
-
-  /// GEOCODING WORKING! JUST NEED LANGUAGE NAME TO CORRESPOND WITH COORDINATES.
-  // getCoordinates = () => {
-  //   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
-  //   Geocode.fromAddress("brazil").then(
-  //     response => {
-  //       const { lat, lng } = response.results[0].geometry.location;
-  //       console.log("lat:", lat, "lng:", lng)
-  //       this.setState({
-  //         currentLocation: {
-  //           lat: lat,
-  //           lng: lng
-  //         }
-  //       })
-  //     },
-  //     error => {
-  //       console.error(error);
-  //     }
-  //   );
-  // }
-
-  sendToMap = () => {
-    if (this.props.state.word !== "") {
-    this.props.history.push('/loading')
-    } else {
-      alert("you need a word for a map!")
+    this.increaseBar()
+    this.setCoordinates()
+    this.renderFourthButton()
     }
   }
 
-  render(){
+  sendToMap = () => {
+    if (this.state.hasCoordinates === false) {
+      alert("No location(s) to show you. Try again!")
+      this.setState({
+        percentage: this.state.percentage = 0
+      })
+    } else {
+      this.props.history.push('/loading')
+    }
+  }
 
+  setCoordinates = () => {
+    this.setState({
+      hasCoordinates: true
+    })
+  }
+
+  increaseBar = (e) => {
+    this.setState({
+      percentage: this.state.percentage + Math.round(33.6)
+    })
+  }
+
+  render(){
     return(
       <div className="WordForm-component">
         <Navbar />
         {
-          this.props.state.currentUser ?
-          <h1>Hi {this.props.state.currentUser.username}, enter a word plz</h1> :
-          <h1>Login first plz</h1>
+          this.props.state.currentUser.username ?
+          <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
+          <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        {/* <h1>Hi, {this.props.state.currentUser}. Enter a word.</h1> */}
         <form>
-          <input 
+          <input className="btn-success"
             type="text" 
             value={this.state.word} 
             onChange={this.handleChange}
             name="word"
           /> 
-          <br />
+        <br />
+        <br />
           <input 
+            className="btn-success"
             type="submit"
             onClick={this.lookUpWord}
+            
           />
         </form>
         <div>
         <br />
-          <button onClick={this.compareLanguages}>Find Lanuages</button>
+          <button className={`btn-success fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
         <br />
-          <button onClick={this.getCoordinates}>Get coordinates</button>
+          <button className={`btn-success fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
           <br />
-          <button className="btn-success" onClick={this.sendToMap}>Generate your map!</button>
+          <br />
+          <button className={`btn-success fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>
           {this.state.wordNotFound 
@@ -465,18 +508,15 @@ class WordInput extends Component {
           :
           null}
         </div>
+        <InputWrapper>
+          <ProgressBarContainer>
+            <ProgressBar percentage={this.state.percentage} />
+          </ProgressBarContainer>
+        </InputWrapper>
       </div>
     )
   }
 }
-
-
-////VIA MAP DISPATCH
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addWord: (word) => {dispatch({type: "ADD_WORD", payload: word})}
-//   }
-// }
 
 const mapStateToProps = (state) => {
   return {
@@ -484,8 +524,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-///First arg of connect is to "GET" information 
-///Second arg of connect is to "SET" information
-
-/// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition})(WordInput)
