@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-// import Word from '../components/Word'
+import ProgressBar from '../components/ProgressBar'
+import styled from 'styled-components'
 import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {removeWord} from '../Redux/actions.js'
-
 import {addCoordinates} from '../Redux/actions.js'
 import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
@@ -295,19 +295,25 @@ const  languagesToCoordinates = [{
 
 }]
 
+const InputWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const ProgressBarContainer = styled.div`
+  width: 300px;
+  margin-top: 200px
+`
+
 class WordInput extends Component {
 
   state = {
-    word: "",
-    etymology: [[]],
-    languages: [],
-    coordinates: [],
+    word: '',
     wordNotFound: false,
-    username: ''
+    username: '',
+    percentage: 0,
+    hasCoordinates: false 
   }
-
-
-
 
   handleChange = (e) => {
     this.setState({
@@ -321,39 +327,37 @@ class WordInput extends Component {
     let word = this.state.word
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
-    // .then(data => this.setState({
-    //   etymology: data[0].et
-    // }))
     .then(data => {
       if (data[0].et === undefined) {
         this.props.removeWord(e)
         this.setState({
           wordNotFound: true,
-          word: ""
         })
       } 
       else  {
-      this.props.addWord(word)
-      this.props.addEtymology(data[0].et)
-
-      this.setState({
-        wordNotFound: false,
-        etymology: data[0].et
-      })
-    }
-  })
+        this.props.addWord(word)
+        this.props.addEtymology(data[0].et)
+        this.increaseBar()
+        this.setState({
+          wordNotFound: false,
+        })
+      }
+    })
+    // .then(setTimeout(() => this.compareLanguages(), 2500))
+    // .then(setTimeout(() => this.getCoordinates(), 2500))
+    // .then(setTimeout(() => this.sendToMap(), 2500))
   }
 
   ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     if (this.props.state.word === ""){
       alert("please enter a valid word")
     }
-    else if (this.state.etymology[0][1] === "origin unknown") {
+    else if (this.props.state.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
     } else {
-    let copiedStr = this.state.etymology[0][1]
+    let copiedStr = this.props.state.etymology[0][1]
     let arr = copiedStr.split(" ")
     /// ...new Set prevents duplicates
     let currentLanguages = [...new Set(arr)]
@@ -369,16 +373,19 @@ class WordInput extends Component {
       }
     }
     this.props.addLanguages(matchedLanguages)
-    this.setState({
-      languages: matchedLanguages
-    })
+    this.increaseBar()
   }
   }
 
   ///Finds origin country coordinates for each language!!!
   getCoordinates = () => {
+    if (this.props.state.languages.length === 0){
+      console.log('yo')
+      alert("We dunno where that one comes from tbh")
+    } 
+    else {
     let coordinatesToRender = []
-    let myLanguages = [...this.state.languages]
+    let myLanguages = [...this.props.state.languages]
       myLanguages.map((lang => {
         let eachLanguage = lang
         for (let i=0; languagesToCoordinates.length; i++) {
@@ -390,52 +397,43 @@ class WordInput extends Component {
         break 
       }
     }))
-    this.setState({
-      coordinates: coordinatesToRender
-    })
     this.props.addCoordinates(coordinatesToRender)
-  }
-
-  /// GEOCODING WORKING! JUST NEED LANGUAGE NAME TO CORRESPOND WITH COORDINATES.
-  // getCoordinates = () => {
-  //   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
-  //   Geocode.fromAddress("brazil").then(
-  //     response => {
-  //       const { lat, lng } = response.results[0].geometry.location;
-  //       console.log("lat:", lat, "lng:", lng)
-  //       this.setState({
-  //         currentLocation: {
-  //           lat: lat,
-  //           lng: lng
-  //         }
-  //       })
-  //     },
-  //     error => {
-  //       console.error(error);
-  //     }
-  //   );
-  // }
-
-  sendToMap = () => {
-    if (this.props.state.word !== "") {
-    this.props.history.push('/loading')
-    } else {
-      alert("you need a word for a map!")
+    this.increaseBar()
+    this.dumb()
     }
   }
 
-  render(){
+  sendToMap = () => {
+    if (this.state.hasCoordinates === false) {
+      alert("No location(s) to show you. Try again!")
+    } else {
+      this.props.history.push('/loading')
+    }
+  }
 
+  dumb = () => {
+    this.setState({
+      hasCoordinates: true
+    })
+  }
+
+  increaseBar = (e) => {
+    this.setState({
+      percentage: this.state.percentage + Math.round(33.6)
+    })
+  }
+
+  render(){
+    console.log(this.props.state.currentLocation[0])
     return(
       <div className="WordForm-component">
         <Navbar />
         {
-          this.props.state.currentUser ?
+          this.props.state.currentUser.username ?
           <h1>Hi {this.props.state.currentUser.username}, enter a word plz</h1> :
           <h1>Login first plz</h1>
         }
-        {/* <h1>Hi, {this.props.state.currentUser}. Enter a word.</h1> */}
-        <form>
+        <form >
           <input 
             type="text" 
             value={this.state.word} 
@@ -443,19 +441,21 @@ class WordInput extends Component {
             name="word"
           /> 
           <br />
-          <input 
+          <input className="btn-success"
             type="submit"
             onClick={this.lookUpWord}
           />
         </form>
         <div>
         <br />
-          <button onClick={this.compareLanguages}>Find Lanuages</button>
+          <button className="btn-success" onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
         <br />
-          <button onClick={this.getCoordinates}>Get coordinates</button>
+          <button className="btn-success" onClick={this.getCoordinates}>Get coordinates</button>
           <br />
+          <br />
+
           <button className="btn-success" onClick={this.sendToMap}>Generate your map!</button>
         </div>
         <div>
@@ -465,18 +465,16 @@ class WordInput extends Component {
           :
           null}
         </div>
+        <InputWrapper>
+          <ProgressBarContainer>
+            <ProgressBar percentage={this.state.percentage} />
+          </ProgressBarContainer>
+        </InputWrapper>
+
       </div>
     )
   }
 }
-
-
-////VIA MAP DISPATCH
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addWord: (word) => {dispatch({type: "ADD_WORD", payload: word})}
-//   }
-// }
 
 const mapStateToProps = (state) => {
   return {
@@ -484,8 +482,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-///First arg of connect is to "GET" information 
-///Second arg of connect is to "SET" information
-
-/// NOW IMPORTING ACTION INSTEAD OF MAPDISPATCH
 export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages})(WordInput)

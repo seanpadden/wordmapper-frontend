@@ -1,9 +1,11 @@
 
 .WordForm-component {
-  background-image: url("https://media3.giphy.com/media/l3V0megwbBeETMgZa/giphy.gif");
-  background-color: rgb(68, 30, 90);
+  /* background-image: url("https://media3.giphy.com/media/l3V0megwbBeETMgZa/giphy.gif"); */
+  /* background-color: rgb(68, 30, 90); */
   background-size: contain; 
   background-position: center;
+  background-repeat:no-repeat;
+
   position: absolute;
   width: 100%; 
   height: 100vh
@@ -22,6 +24,6 @@
   border-radius: 3px;
   border: 1px solid ;
   user-select: none;
-  font-family: 'Londrina Outline', cursive;
+
 
 }
