@@ -474,6 +474,11 @@ class WordInput extends Component {
           <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
           <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
+        {this.state.wordNotFound 
+          ? 
+          <p style={{color: 'white'}}>Sorry! Webster doesn't know this one -_- Try again?</p>
+          :
+          null}
         <form>
           <input className="btn-success"
             type="text" 
@@ -487,7 +492,6 @@ class WordInput extends Component {
             className="btn-success"
             type="submit"
             onClick={this.lookUpWord}
-            
           />
         </form>
         <div>
@@ -500,13 +504,6 @@ class WordInput extends Component {
           <br />
           <br />
           <button className={`btn-success fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
-        </div>
-        <div>
-          {this.state.wordNotFound 
-          ? 
-          <h1>Sorry! Webster doesn't know this one -_- Try again?</h1>
-          :
-          null}
         </div>
         <InputWrapper>
           <ProgressBarContainer>

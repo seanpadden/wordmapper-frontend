@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { userPostFetch } from '../Redux/userActions.js'
+import '../LoginPage.css'
+import LoginPage from './LoginPage.js'
 
 
 class SignUpPage extends Component {
@@ -18,15 +20,25 @@ class SignUpPage extends Component {
     this.props.userPostFetch(this.state, this.props.history)
   }
 
+  handleSwitch = () => {
+    this.setState({
+      loginClicked: !this.state.loginClicked,
+      signupClicked: !this.state.signupClicked
+
+    })
+  }
+
   render() {
     return (
-      <div>
-        <h1>Sign Up!</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} value={this.state.username} type="text" name="username"/>
-          <input onChange={this.handleChange} value={this.state.password} type="text" name="password"/>
-          <input type="submit" value="Sign Up!"/>
-        </form>
+      <div className="main">
+      <button className="btn-switch">Sign Up</button>
+      <button className="btn-switch" onClick={this.props.handleSwitch}>Log In</button>
+        <p className="sign">register here plz</p>
+          <form className="form1" onSubmit={this.handleSubmit}>
+            <input className="un"  onChange={this.handleChange} value={this.state.username} placeholder="Username" type="text" name="username"/>
+            <input className="pass" onChange={this.handleChange} value={this.state.password} placeholder="password" type="text" name="password"/>
+            <input className="submit" type="submit" value="Join Us"/>
+          </form>
       </div>
     );
   }
