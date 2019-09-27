@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { userPostFetch } from '../Redux/userActions.js'
 import '../LoginPage.css'
-import LoginPage from './LoginPage.js'
 
 
 class SignUpPage extends Component {

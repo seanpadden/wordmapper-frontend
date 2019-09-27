@@ -360,6 +360,7 @@ class WordInput extends Component {
     .then(resp => resp.json())
     .then(data => {
       if (data[0].et === undefined) {
+        alert("We couldn't find origins for this word!")
         this.props.removeWord(e)
         this.setState({
           wordNotFound: true,
@@ -474,11 +475,11 @@ class WordInput extends Component {
           <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
           <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        {this.state.wordNotFound 
+        {/* {this.state.wordNotFound 
           ? 
           <p style={{color: 'white'}}>Sorry! Webster doesn't know this one -_- Try again?</p>
           :
-          null}
+          null} */}
         <form>
           <input className="btn-success"
             type="text" 
