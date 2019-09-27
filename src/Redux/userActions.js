@@ -41,37 +41,12 @@ export const userLoginFetch = (user, history) => {
         history.push('/input')
       }
       else  {
-        alert("FUCK JWT")
+        alert("Wrong username or password!")
         localStorage.clear()
       }
     })
   } 
 }
-
-// export const userLoginFetch = (user, history) => {
-//   return dispatch => {
-
-//     fetch('http://localhost:3000/login', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Accept': 'application/json'
-//       },
-//       body: JSON.stringify(user)
-//     })
-//       .then(resp => resp.json())
-//       .then(data => {
-//         if (data.errors) {
-//           alert("Wrong username or password.")
-//         } 
-//         else  {
-//           localStorage.token = data.token
-//           dispatch(loginUser(data.user.username))
-//           history.push('/input')
-//       }
-//     })
-//   } 
-// }
 
 const createUser = (userObj) => ({
   type: 'CREATE_USER',
