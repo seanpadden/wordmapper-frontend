@@ -24,6 +24,7 @@ class LoginPage extends Component {
     return (
       <div className="main">
       <button className="btn-switch" onClick={this.props.handleSwitch}>Sign Up</button>
+      <div class="divider"/>
       <button className="btn-switch" >Log In</button>
         <p className="sign">sign in plz</p>
           <form className="form1" onSubmit={this.handleSubmit}>

@@ -32,6 +32,7 @@ class SignUpPage extends Component {
     return (
       <div className="main">
       <button className="btn-switch">Sign Up</button>
+      <div class="divider"/>
       <button className="btn-switch" onClick={this.props.handleSwitch}>Log In</button>
         <p className="sign">register here plz</p>
           <form className="form1" onSubmit={this.handleSubmit}>
