@@ -8,7 +8,7 @@ class LoadingScreen extends Component  {
     done: undefined
   }
   componentDidMount(){
-    setTimeout(() => this.props.history.push('/map'), 2500);
+    setTimeout(() => this.props.history.push('/newmap'), 2500);
   }
 
 

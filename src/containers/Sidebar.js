@@ -10,7 +10,6 @@ class Sidebar extends Component {
   render(){
     return(
       <div className="sidenav">
-        <button>hi</button>
         <NavLink to="/input" >Go Back</NavLink>
         <NavLink to="/profile" >Profile</NavLink>
 
