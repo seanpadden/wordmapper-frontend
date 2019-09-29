@@ -12,8 +12,6 @@ class Sidebar extends Component {
       <div className="sidenav">
         <NavLink to="/input" >Go Back</NavLink>
         <NavLink to="/profile" >Profile</NavLink>
-
-
       </div>
     )
   }

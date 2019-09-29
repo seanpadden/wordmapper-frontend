@@ -1,3 +1,8 @@
+body {
+  background: linear-gradient(to right, rgb(53, 47, 54), rgb(140, 35, 156));
+  font-family: 'Space Mono', monospace;
+  text-transform: lowercase;  
+}
 
 .WordForm-component {
   /* background-image: url("https://media3.giphy.com/media/l3V0megwbBeETMgZa/giphy.gif"); */
@@ -54,4 +59,13 @@
 .is-paused {
 	-webkit-animation-play-state: paused;
   animation-play-state: paused;
+}
+
+.form {
+    font-weight: bold;
+    font-size: 23px;
+    justify-content: center;
+    text-transform: uppercase;
+    color: rgb(234, 206, 245);
+    font-family: 'Space Mono', monospace;
 }

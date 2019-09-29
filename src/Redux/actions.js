@@ -45,3 +45,19 @@ export const addDefinition = (definition) => {
     payload: definition 
   }
 }
+
+export const wordPostFetch = (word) => {
+  return dispatch => {
+    return fetch("http://localhost:3000/words", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        word_name: word
+      })
+    })
+      .then(resp => resp.json())
+    }
+}
