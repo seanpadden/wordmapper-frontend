@@ -450,7 +450,7 @@ class WordInput extends Component {
         percentage: this.state.percentage = 0
       })
     } else {
-      this.props.history.push('/loading')
+      this.props.history.push('/newmap')
     }
   }
 
