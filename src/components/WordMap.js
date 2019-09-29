@@ -1,24 +1,17 @@
 import React, { Component } from "react"
-import { withScriptjs, withGoogleMap, GoogleMap, InfoWindow, Polyline} from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps"
 import WordMarker from './WordMarker.js'
 import {connect} from 'react-redux'
 
 const styles = require('../GoogleMapStyles.json')
 
-// const WordMap = withScriptjs(withGoogleMap((props) => {
-
 class WordMap extends Component {
   render(){
-    console.log(this.props.state)
-
   const wordPositions = this.props.state.currentLocation.map((coord => 
     <WordMarker
       position={coord}
     />
   ))
-
-
-
   return (
     <GoogleMap
       defaultZoom={3}
@@ -32,12 +25,19 @@ class WordMap extends Component {
         styles: styles // change default map styles
       }}
     >
-     {wordPositions}
+    <Polyline 
+      path={this.props.state.currentLocation}
+      options={{
+        strokeColor: "#9E24B1",
+        strokeOpacity: 0.75,
+        strokeWeight: 2,
+      }}
+    />
+      {wordPositions}
     </GoogleMap>
   )
 }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -45,5 +45,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-// export default connect(mapStateToProps)(WordMap)
 export default connect(mapStateToProps)(withScriptjs(withGoogleMap(WordMap)))

@@ -22,7 +22,8 @@ class WordMarker extends Component {
         <Marker 
           position={this.props.position}
           onClick={this.handleClick}
-        >
+          animation={window.google.maps.Animation.DROP}
+          >
         {
           this.state.active ?
           <InfoWindow 

@@ -12,7 +12,7 @@ import Word from './components/Word.js'
 import Navbar from './components/Navbar.js'
 import LogOut from './components/LogOut.js'
 import WordMapContainer from './containers/WordMapContainer.js'
-import MapLmao from './containers/MapLmao.js'
+
 
   
 class App extends Component {
@@ -30,7 +30,6 @@ return (
       <Route path={'/loading'} component={LoadingScreen} />
       <Route path={'/logout'} component={LogOut} />
       <Route path={'/newmap'} component={WordMapContainer} />
-      <Route path={'/killme'} component={MapLmao} />
 
     </Switch>
   </div>
