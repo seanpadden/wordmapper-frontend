@@ -1,11 +1,43 @@
 import React, { Component } from "react"
-import { compose, withProps } from "recompose"
 import {connect} from 'react-redux'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow, Polyline, Animation } from "react-google-maps"
 import WordMap from "../components/WordMap";
 import Sidebar from './Sidebar.js'
 
-const styles = require('../GoogleMapStyles.json')
+class WordMapContainer extends Component {
+  
+  render() {
+    
+    return (
+      <div>
+        <Sidebar/>
+        <div>
+        <WordMap 
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_API_KEY}`}
+          loadingElement={<div style={{ height: `100%`, }} />}
+          containerElement={<div style={{ height: `400px` }} />}
+          mapElement={<div style={{ 
+            height: '200%', 
+            width: '60%',
+            position: 'relative',
+            marginTop: '1%',
+            marginLeft: '38%',
+            border: 'solid 2px black',
+            }}
+            />}
+        />
+        </div>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    state
+  }
+}
+  
+export default connect(mapStateToProps, null)(WordMapContainer)
 
 ///**********************TRYING THEIR WAY **********************\\\
 
@@ -170,47 +202,3 @@ const styles = require('../GoogleMapStyles.json')
 ///**********************TRYING REACT WAY **********************\\\
 
 
-class WordMapContainer extends Component {
-  
-  render() {
-    
-  const wordPositions = this.props.state.currentLocation.map((coord => 
-    <Marker
-      position={coord}
-    />
-  ))
-
-    console.log("MI PROPS:", this.props.state)
-    console.log("MI LOCAL STATE:", this.state)
-    return (
-      <div>
-        <Sidebar/>
-        <div>
-        <WordMap 
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_API_KEY}`}
-          loadingElement={<div style={{ height: `100%`, }} />}
-          containerElement={<div style={{ height: `400px` }} />}
-          mapElement=
-            {<div style={{ 
-            height: '200%', 
-            width: '60%',
-            position: 'relative',
-            marginTop: '1%',
-            marginLeft: '38%',
-            border: 'solid 2px black',
-            }}
-            />}
-        />
-        </div>
-      </div>
-    )
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    state
-  }
-}
-  
-  export default connect(mapStateToProps, null)(WordMapContainer)

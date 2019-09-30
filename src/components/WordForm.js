@@ -10,11 +10,14 @@ import {addEtymology} from '../Redux/actions.js'
 import {addLanguages} from '../Redux/actions.js'
 import {addDate} from '../Redux/actions.js'
 import {addDefinition} from '../Redux/actions.js'
+import {wordPostFetch} from '../Redux/actions.js'
+
 import MapContainer from '../containers/MapContainer.js'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import Navbar from './Navbar'
 import '../WordForm.css'
 
+///API KEY\\\
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
 const allTheLanguages = [ 
@@ -367,7 +370,6 @@ class WordInput extends Component {
         })
       } 
       else  {
-        debugger 
         this.props.addWord(word)
         this.props.addDate(data[0].date)
         this.props.addDefinition(data[0].shortdef)
@@ -450,6 +452,7 @@ class WordInput extends Component {
         percentage: this.state.percentage = 0
       })
     } else {
+      this.props.wordPostFetch(this.props.state.word)
       this.props.history.push('/newmap')
     }
   }
@@ -480,7 +483,7 @@ class WordInput extends Component {
           <p style={{color: 'white'}}>Sorry! Webster doesn't know this one -_- Try again?</p>
           :
           null} */}
-        <form>
+        <form className>
           <input className="btn-success"
             type="text" 
             value={this.state.word} 
@@ -522,4 +525,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition, wordPostFetch})(WordInput)

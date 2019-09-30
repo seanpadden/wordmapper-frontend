@@ -15,7 +15,13 @@ class WordMarker extends Component {
     )
   }
   render(){
-    console.log(this.props)
+    let etyArray = this.props.state.etymology[0]
+    let etyString = etyArray[1]
+    const regex = /{(.*?)}/g
+    if (regex.test(etyString)){
+      var stringToShow = etyString.replace(regex, "")
+    }
+    
     return(
       <div>
         
@@ -28,7 +34,7 @@ class WordMarker extends Component {
           this.state.active ?
           <InfoWindow 
             defaultPosition={this.props.position}>
-            <div>{this.props.state.etymology}</div>
+            <div>{stringToShow}</div>
           </InfoWindow>
           :
           null

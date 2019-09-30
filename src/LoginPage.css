@@ -1,6 +1,7 @@
   body {
     background: linear-gradient(to right, rgb(53, 47, 54), rgb(140, 35, 156));
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Space Mono', monospace;
+    /* text-transform: uppercase;   */
   }
 
   .main {
@@ -12,6 +13,8 @@
     border-radius: 1.5em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
     padding-top: 12px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
   }
 
   .btn-switch {
