@@ -1,7 +1,7 @@
   body {
     background: linear-gradient(to right, rgb(53, 47, 54), rgb(140, 35, 156));
     font-family: 'Space Mono', monospace;
-    text-transform: uppercase;  
+    /* text-transform: uppercase;   */
   }
 
   .main {
