@@ -375,7 +375,6 @@ class WordInput extends Component {
 
   findMostCommonWord = (words) => {
     let wordArr = words.map(word => word.word_name)
-    console.log(wordArr)
     let mostCommon = wordArr.sort((a,b) =>
           wordArr.filter(v => v===a).length
         - wordArr.filter(v => v===b).length

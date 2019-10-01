@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import WordMap from "../components/WordMap";
 import Sidebar from './Sidebar.js'
 import Word from "../components/Word";
+import ProfilePage from "../components/ProfilePage";
+
 
 class WordMapContainer extends Component {
   
@@ -28,7 +30,8 @@ class WordMapContainer extends Component {
             />}
         />
         </div>
-        
+        <div>
+        </div>
       </div>
     )
   }

@@ -88,9 +88,7 @@ export const saveMapFetch = (word) => {
     })
       .then(resp => resp.json())
       .then(data => {
-        debugger 
         if (!data.error){
-          debugger 
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))
         }

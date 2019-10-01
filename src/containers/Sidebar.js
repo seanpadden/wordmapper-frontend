@@ -9,7 +9,6 @@ import { NavLink } from 'react-router-dom'
 class Sidebar extends Component {
 
   handleClick = () => {
-    console.log(this.props.state)
     this.props.saveMapFetch(this.props.state)
   }
 
