@@ -68,3 +68,42 @@ export const addMostCommonWord = (word) => {
     payload: word 
   }
 }
+
+
+export const saveMapFetch = (word) => {
+  return dispatch => {
+    return fetch("http://localhost:3000/savemap", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: word.currentUser.id,
+        word_name: word.word,
+        etymology: word.etymology[0][1],
+        lat: word.currentLocation[0].lat,
+        lng: word.currentLocation[0].lng 
+      })
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        debugger 
+        if (!data.error){
+          debugger 
+          alert("Saved! Check it out in your profile!")
+          dispatch(saveMap(data))
+        }
+        else {
+          alert("Sry, but you gotta be logged in to save a map")
+        }
+      })
+  }
+}
+
+export const saveMap = (word) => {
+  return {
+    type: "SAVE_MAP",
+    payload: word 
+  }
+}
