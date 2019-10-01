@@ -6,7 +6,14 @@ const initialState = {
   etymology: [[]],
   languages: [],
   currentLocation: [{lat: 0, lng: 0}],
-  mostCommonWord: ''
+  mostCommonWord: '',
+  userMap: {
+    user_id: null,
+    word_name: '',
+    etymology: '',
+    lat: 0,
+    lng: 0
+  }
 }
 
 const reducer = (state = initialState, action ) => {
@@ -33,6 +40,8 @@ const reducer = (state = initialState, action ) => {
       return {...state, currentUser: {}}
     case 'ADD_MOST_COMMON_WORD':
       return {...state, mostCommonWord: action.payload}
+    case 'SAVE_MAP':
+      return {...state, userMap: action.payload}
     default: 
       return state
   }

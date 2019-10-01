@@ -41,7 +41,7 @@ class WordMarker extends Component {
           this.state.active ?
           <InfoWindow 
             onCloseClick={this.handleClose}
-            defaultPosition={this.props.position}>
+          >
             <div>{stringToShow}</div>
           </InfoWindow>
           :

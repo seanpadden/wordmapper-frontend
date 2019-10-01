@@ -14,7 +14,6 @@ class Word extends Component {
     } else {
       var dateToShow = dumbDate
     }
-    console.log(this.props.state.date)
     return(
       <div className="word">
       <h1>Your word is...</h1>
