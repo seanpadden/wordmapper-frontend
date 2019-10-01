@@ -33,6 +33,8 @@
 }
 
 .sidenav {
+  display: flex;
+  flex-direction: column;
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 160px; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -48,7 +50,7 @@
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
-  color: #818181;
+  color: rgb(234, 206, 245);
   display: block;
 }
 
@@ -64,3 +66,4 @@
   .sidenav a {font-size: 18px;}
 }
 
+/* earlier {it}apossoun, opassom{/it}, borrowed from a Virginia Algonquian word of uncertain form, going back to Algonquian {it}*wa·p-{/it} "white" + {it}*-aʔθemw-{/it} "dog, small animal */

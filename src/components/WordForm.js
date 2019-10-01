@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ProgressBar from '../components/ProgressBar'
 import styled from 'styled-components'
-import Geocode from "react-geocode";
 import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {removeWord} from '../Redux/actions.js'
@@ -11,9 +10,7 @@ import {addLanguages} from '../Redux/actions.js'
 import {addDate} from '../Redux/actions.js'
 import {addDefinition} from '../Redux/actions.js'
 import {wordPostFetch} from '../Redux/actions.js'
-
-import MapContainer from '../containers/MapContainer.js'
-import { Switch, Route, withRouter } from 'react-router-dom'
+import {addMostCommonWord} from '../Redux/actions.js'
 import Navbar from './Navbar'
 import '../WordForm.css'
 
@@ -26,6 +23,8 @@ const allTheLanguages = [
   'Afrikaans',
   'Akan',
   'Albanian',
+  'Algonquian',
+  'Algonquian,',
   'Amharic',
   'Arabic',
   'Aragonese',
@@ -143,6 +142,7 @@ const allTheLanguages = [
   'Kyrgyz',
   'Lao',
   'Latin',
+  'Latin,',
   'Latvian',
   'Letzeburgesch', 
   'Luxembourgish',
@@ -151,6 +151,7 @@ const allTheLanguages = [
   'Limburger',
   'Lingala',
   'Lithuanian',
+  'Lithuanian,',
   'Luba-Katanga',
   'Macedonian',
   'Malagasy',
@@ -166,7 +167,11 @@ const allTheLanguages = [
   'Romanian',
   'Mongolian',
   'Nauru',
-  'Navajo', 'Navaho',
+  'Navajo', 
+  'Navajo,', 
+  'Navaho',
+  'Nahuatl',
+  'Nahuatl,',
   'Northern Ndebele',
   'Ndonga',
   'Nepali',
@@ -211,7 +216,10 @@ const allTheLanguages = [
   'Sotho, Southern',
   'South Ndebele',
   'Spanish', 
+  'Spanish,',
   'Castilian',
+  'Castilian,',
+
   'Sundanese',
   'Swahili',
   'Swati',
@@ -245,6 +253,7 @@ const allTheLanguages = [
   'Wolof',
   'Xhosa',
   'Yiddish',
+  'Yiddish,',
   'Yoruba',
   'Zhuang', 
   'Chuang',
@@ -300,7 +309,19 @@ const  languagesToCoordinates = [{
   "Hindi,": {lat: 20.5937, lng: 78.9629},
   "Old Church Slavonic": {lat: 48.6690, lng: 19.6990},
   "Old Church Slavonic,": {lat: 48.6690, lng: 19.6990},
-  Slavonic: {lat: 48.6690, lng: 19.6990}
+  Slavonic: {lat: 48.6690, lng: 19.6990},
+  Hebrew: {lat: 31.7683, lng: 35.2137},
+  "Hebrew,": {lat: 31.7683, lng: 35.2137},
+  Yiddish: {lat: 51.1657, lng: 10.4515},
+  "Yiddish,": {lat: 51.1657, lng: 10.4515},
+  Lithuanian: {lat: 55.1694, lng: 23.8813},
+  "Lithuanian,": {lat: 55.1694, lng: 23.8813},
+  Turkish: {lat: 38.9637, lng: 35.2433},
+  "Turkish,": {lat: 38.9637, lng: 35.2433},
+  Algonquian: {lat: 45.5017, lng: -73.5673},
+  'Algonquian,': {lat: 45.5017, lng: -73.5673},
+  Nahuatl: {lat: 20.683056, lng: -88.568611},
+  "Nahuatl,": {lat: 20.683056, lng: -88.568611}
 
 
 }]
@@ -347,7 +368,20 @@ class WordInput extends Component {
 
   componentDidMount(){
     this.props.removeWord()
+    fetch("http://localhost:3000/words")
+    .then(resp => resp.json())
+    .then(data => this.findMostCommonWord(data))    
   }
+
+  findMostCommonWord = (words) => {
+    let wordArr = words.map(word => word.word_name)
+    console.log(wordArr)
+    let mostCommon = wordArr.sort((a,b) =>
+          wordArr.filter(v => v===a).length
+        - wordArr.filter(v => v===b).length
+    ).pop();
+      this.props.addMostCommonWord(mostCommon)
+    }
 
   handleChange = (e) => {
     this.setState({
@@ -452,8 +486,9 @@ class WordInput extends Component {
         percentage: this.state.percentage = 0
       })
     } else {
-      this.props.wordPostFetch(this.props.state.word)
-      this.props.history.push('/newmap')
+      let wordToSend = this.props.state.word.toLowerCase()
+      this.props.wordPostFetch(wordToSend)
+      this.props.history.push('/loading')
     }
   }
 
@@ -478,12 +513,9 @@ class WordInput extends Component {
           <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
           <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        {/* {this.state.wordNotFound 
-          ? 
-          <p style={{color: 'white'}}>Sorry! Webster doesn't know this one -_- Try again?</p>
-          :
-          null} */}
-        <form className>
+        <h1 style={{textAlign: 'left', color: 'white'}}>The current most searched word is: </h1>
+        <h2 style={{textAlign: 'left', color: 'white'}}>{this.props.state.mostCommonWord}</h2>
+        <form className="form">
           <input className="btn-success"
             type="text" 
             value={this.state.word} 
@@ -525,4 +557,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition, wordPostFetch})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition, wordPostFetch, addMostCommonWord})(WordInput)

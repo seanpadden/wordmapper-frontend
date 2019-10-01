@@ -30,7 +30,6 @@ return (
       <Route path={'/loading'} component={LoadingScreen} />
       <Route path={'/logout'} component={LogOut} />
       <Route path={'/newmap'} component={WordMapContainer} />
-
     </Switch>
   </div>
 )}

@@ -18,7 +18,6 @@ class Navbar extends Component {
         return (
           <Fragment>
             <Link to={'/login'}>Log in!</Link>
-            <Link to={'/signup'}>Sign Up!</Link>
           </Fragment>
         )
       }

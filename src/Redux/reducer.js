@@ -5,7 +5,8 @@ const initialState = {
   shortdef: '',
   etymology: [[]],
   languages: [],
-  currentLocation: [{lat: 0, lng: 0}]
+  currentLocation: [{lat: 0, lng: 0}],
+  mostCommonWord: ''
 }
 
 const reducer = (state = initialState, action ) => {
@@ -30,6 +31,8 @@ const reducer = (state = initialState, action ) => {
       return {...state, currentUser: action.payload}
     case 'LOGOUT_USER':
       return {...state, currentUser: {}}
+    case 'ADD_MOST_COMMON_WORD':
+      return {...state, mostCommonWord: action.payload}
     default: 
       return state
   }

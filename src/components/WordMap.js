@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps"
 import WordMarker from './WordMarker.js'
 import {connect} from 'react-redux'
+import Word from './Word.js'
 
 const styles = require('../GoogleMapStyles.json')
 
@@ -13,8 +14,9 @@ class WordMap extends Component {
     />
   ))
   return (
+    <div className="map-component">
     <GoogleMap
-      defaultZoom={3}
+      defaultZoom={2.5}
       defaultCenter={{lat: 37.5647, lng: 49.1472}}
       defaultOptions={{
         disableDefaultUI: true, // disable default map UI
@@ -35,6 +37,7 @@ class WordMap extends Component {
     />
       {wordPositions}
     </GoogleMap>
+    </div>
   )
 }
 }

@@ -9,10 +9,10 @@ import { NavLink } from 'react-router-dom'
 class Sidebar extends Component {
   render(){
     return(
-      <div className="sidenav">
+    <div className="sidenav" >
         <NavLink to="/input" >Go Back</NavLink>
         <NavLink to="/profile" >Profile</NavLink>
-      </div>
+    </div>
     )
   }
 }

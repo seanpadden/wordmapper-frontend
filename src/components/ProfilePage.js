@@ -12,7 +12,8 @@ class ProfilePage extends Component {
       <Navbar />
         {
           this.props.state.currentUser.username ?
-          <h1>{this.props.state.currentUser.username}'s profile</h1> :
+          <h1>{this.props.state.currentUser.username}'s profile</h1> 
+          :
           <h1>How did you get you get here?!? Login!</h1>
         }
       </div>

@@ -61,3 +61,10 @@ export const wordPostFetch = (word) => {
       .then(resp => resp.json())
     }
 }
+
+export const addMostCommonWord = (word) => {
+  return {
+    type: "ADD_MOST_COMMON_WORD",
+    payload: word 
+  }
+}

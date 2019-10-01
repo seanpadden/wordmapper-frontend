@@ -36,7 +36,7 @@ class SignUpPage extends Component {
         <p className="sign">register here plz</p>
           <form className="form1" onSubmit={this.handleSubmit}>
             <input className="un"  onChange={this.handleChange} value={this.state.username} placeholder="Username" type="text" name="username"/>
-            <input className="pass" onChange={this.handleChange} value={this.state.password} placeholder="password" type="text" name="password"/>
+            <input className="pass" onChange={this.handleChange} value={this.state.password} placeholder="password" type="password" name="password"/>
             <input className="submit" type="submit" value="Join Us"/>
           </form>
       </div>

@@ -9,11 +9,19 @@ class WordMarker extends Component {
     active: false,
   }
 
-  handleClick = () => {
+  handleOpen = () => {
     this.setState({
-      active: !this.state.active}
-    )
+      active: true
+    })
   }
+
+  handleClose = () => {
+    this.setState({
+      active: false
+    })
+  }
+
+
   render(){
     let etyArray = this.props.state.etymology[0]
     let etyString = etyArray[1]
@@ -24,15 +32,15 @@ class WordMarker extends Component {
     
     return(
       <div>
-        
         <Marker 
           position={this.props.position}
-          onClick={this.handleClick}
+          onClick={this.handleOpen}
           animation={window.google.maps.Animation.DROP}
           >
         {
           this.state.active ?
           <InfoWindow 
+            onCloseClick={this.handleClose}
             defaultPosition={this.props.position}>
             <div>{stringToShow}</div>
           </InfoWindow>
@@ -40,7 +48,6 @@ class WordMarker extends Component {
           null
         }
         </Marker>
-
       </div>
     )
   }
