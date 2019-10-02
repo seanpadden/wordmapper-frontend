@@ -1,22 +1,26 @@
 import React, { Component } from "react"
-import { withScriptjs, withGoogleMap, GoogleMap, Polyline, Marker} from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline} from "react-google-maps"
 import {connect} from 'react-redux'
+import UserMarker from './UserMarker.js'
 
 const styles = require('../GoogleMapStyles.json')
 
 class UserMap extends Component {
   render(){
-
-  const renderMaps = this.props.userMaps.map(map => 
-    <Marker 
-      position={{lat: map.lat, lng: map.lng}}
-      /> 
-    )
-
+    const renderMarkers = this.props.userMaps.map((mapObj => {
+      if (mapObj.coordinates.length > 0) {
+      return mapObj.coordinates.map(coord => 
+        <UserMarker 
+          lat={parseFloat(coord.lat)}
+          lng={parseFloat(coord.lng)}
+        />
+        )
+      }
+    } 
+    ))
   return (
     <div className="map-component">
     <h1>Your saved maps</h1>
-    <h3>{this.props.userMaps.word}</h3>
     <GoogleMap
       defaultZoom={2.5}
       defaultCenter={{lat: 37.5647, lng: 49.1472}}
@@ -29,9 +33,7 @@ class UserMap extends Component {
         styles: styles // change default map styles
       }}
     >
-    {renderMaps}
-      />
-
+    {renderMarkers}
     </GoogleMap>
 
     </div>

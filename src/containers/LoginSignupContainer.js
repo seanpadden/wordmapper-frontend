@@ -19,7 +19,6 @@ class LoginSignupContainer extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
         {this.state.signupClicked ?

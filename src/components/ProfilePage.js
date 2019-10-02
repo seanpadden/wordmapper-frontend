@@ -7,26 +7,42 @@ import UserMap from './UserMap.js'
 class ProfilePage extends Component {
 
   state = {
-    userMaps: []
+    userMaps: [],
+    currentLocation: {
+      lat: 0,
+      lng: 0
+    }
   }
 
   componentDidMount(){
     fetch("http://localhost:3000/maps/")
-    .then(resp => resp.json())
-    .then(data => this.findUserMaps(data))
+      .then(resp => resp.json())
+      .then(data => this.findUserMaps(data))
   }
 
-  findUserMaps = (data) => {
-    let userMaps = data.filter(mapObj => mapObj.user_id === this.props.state.currentUser.id)
+  findUserMaps = (data) => {    
+    let userMaps = data.filter(mapObj => mapObj.user.id === this.props.state.currentUser.id)
     this.setState({
       userMaps: userMaps
     })
+    // this.convertToCoords()
   }
 
-
+  // convertToCoords = () => {
+  //   const renderMarkers = this.state.userMaps.map((mapObj => {
+  //     if (mapObj.coordinates.length > 0) {
+  //     mapObj.coordinates.map(coord => 
+  //       <UserMap 
+  //       lat={parseFloat(coord.lat)}
+  //       lng={parseFloat(coord.lng)}
+  //       />
+  //       )
+  //     }
+  //   } 
+  //   ))
+  // }
 
   render() {
-
     return (
       <div>
       <Navbar />
@@ -50,8 +66,8 @@ class ProfilePage extends Component {
             border: 'solid 2px black',
             }}
             />}
-          userMaps={this.state.userMaps}
-        />
+            userMaps={this.state.userMaps}
+            />
         </div>
       </div>
     );
