@@ -3,9 +3,11 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline} from "react-g
 import {connect} from 'react-redux'
 import UserMarker from './UserMarker.js'
 
-const styles = require('../GoogleMapStyles.json')
+const styles = require('../ProfileMapStyles.json')
 
 class UserMap extends Component {
+
+
   render(){
     const renderMarkers = this.props.userMaps.map((mapObj => {
       if (mapObj.coordinates.length > 0) {
@@ -20,7 +22,6 @@ class UserMap extends Component {
     ))
   return (
     <div className="map-component">
-    <h1>Your saved maps</h1>
     <GoogleMap
       defaultZoom={2.5}
       defaultCenter={{lat: 37.5647, lng: 49.1472}}

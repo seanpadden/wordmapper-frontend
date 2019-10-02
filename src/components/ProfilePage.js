@@ -2,19 +2,19 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Navbar from './Navbar.js'
 import UserMap from './UserMap.js'
+import ProfileSidebar from './ProfileSidebar.js'
 
 
 class ProfilePage extends Component {
 
   state = {
     userMaps: [],
-    currentLocation: {
-      lat: 0,
-      lng: 0
-    }
   }
 
   componentDidMount(){
+    // if (!localStorage.token || !this.props.state.currentUser.username) {
+    //   this.props.history.push('/login')
+    // } 
     fetch("http://localhost:3000/maps/")
       .then(resp => resp.json())
       .then(data => this.findUserMaps(data))
@@ -25,41 +25,35 @@ class ProfilePage extends Component {
     this.setState({
       userMaps: userMaps
     })
-    // this.convertToCoords()
   }
 
-  // convertToCoords = () => {
-  //   const renderMarkers = this.state.userMaps.map((mapObj => {
-  //     if (mapObj.coordinates.length > 0) {
-  //     mapObj.coordinates.map(coord => 
-  //       <UserMap 
-  //       lat={parseFloat(coord.lat)}
-  //       lng={parseFloat(coord.lng)}
-  //       />
-  //       )
-  //     }
-  //   } 
-  //   ))
-  // }
+  
 
   render() {
+    const userWords = this.state.userMaps.map((mapObj => 
+      <p>{mapObj.word_name}</p>
+    ))
     return (
       <div>
-      <Navbar />
+      <ProfileSidebar/>
         {
           this.props.state.currentUser.username ?
           <h1>{this.props.state.currentUser.username}'s profile</h1> 
           :
           <h1>How did you get you get here?!? Login!</h1>
         }
+        <div className="word-profile">
+          <h1>Your saved words</h1>
+          <h1>{userWords}</h1>
+        </div>
         <div>
-        <UserMap 
+        <UserMap  
           googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_API_KEY}`}
           loadingElement={<div style={{ height: `100%`, }} />}
           containerElement={<div style={{ display: `flex`, position: `fixed`, height: `100%`, width: `100%` }} />}
           mapElement={<div style={{ 
-            height: '50%',  
-            width: '40%',
+            height: '80%',  
+            width: '60%',
             position: 'relative',
             marginTop: '1%',
             marginLeft: '38%',

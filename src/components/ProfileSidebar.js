@@ -6,7 +6,7 @@ import {saveMapFetch} from '../Redux/actions.js'
 import '../App.css'
 import { NavLink } from 'react-router-dom'
 
-class Sidebar extends Component {
+class ProfileSidebar extends Component {
 
   handleClick = () => {
     this.props.saveMapFetch(this.props.state)
@@ -16,8 +16,9 @@ class Sidebar extends Component {
     return(
     <div className="sidenav" >
         <NavLink to="/input" >Search Again</NavLink>
-        <NavLink to="/profile" >Profile</NavLink>
-        <button className="submit" onClick={this.handleClick}>OMG I love this!!</button>
+
+        <NavLink to={'/logout'}>Log Out</NavLink>
+
     </div>
     )
   }
@@ -31,4 +32,4 @@ const mapStateToProps = (state) => {
 
 
 
-export default connect(mapStateToProps, {removeWord, saveMapFetch})(Sidebar)
+export default connect(mapStateToProps, {removeWord, saveMapFetch})(ProfileSidebar)

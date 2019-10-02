@@ -26,10 +26,9 @@ return (
         render={routerProps => <ProfilePage {...routerProps} />} />
       <Route path={'/login'} render={routerProps => <LoginSignupContainer {...routerProps} />} />
       <Route path={'/input'} component={WordForm} />
-      <Route path={'/map'} component={MapContainer} />
       <Route path={'/loading'} component={LoadingScreen} />
       <Route path={'/logout'} component={LogOut} />
-      <Route path={'/newmap'} component={WordMapContainer} />
+      <Route path={'/map'} component={WordMapContainer} />
     </Switch>
   </div>
 )}

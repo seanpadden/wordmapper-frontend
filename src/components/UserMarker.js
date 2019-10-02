@@ -7,15 +7,6 @@ class UserMarker extends Component {
 
 
   render(){
-    // let etyArray = this.props.state.etymology[0]
-    // let etyString = etyArray[1]
-    // const regex = /{(.*?)}/g
-    // if (regex.test(etyString)){
-    //   var stringToShow = etyString.replace(regex, "")
-    // }
-    console.log("this user's lat:", this.props.lat)
-    console.log("this user's lng:", this.props.lng)
-
     return(
       <div>
         <Marker 
