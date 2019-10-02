@@ -13,7 +13,9 @@ class UserMarker extends Component {
     // if (regex.test(etyString)){
     //   var stringToShow = etyString.replace(regex, "")
     // }
-    console.log(this.props.lat)
+    console.log("this user's lat:", this.props.lat)
+    console.log("this user's lng:", this.props.lng)
+
     return(
       <div>
         <Marker 
