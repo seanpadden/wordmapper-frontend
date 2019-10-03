@@ -36,15 +36,9 @@ class ProfilePage extends Component {
     return (
       <div>
       <ProfileSidebar/>
-        {
-          this.props.state.currentUser.username ?
-          <h1>{this.props.state.currentUser.username}'s profile</h1> 
-          :
-          <h1>How did you get you get here?!? Login!</h1>
-        }
         <div className="word-profile">
           <h1>Your saved words</h1>
-          <h1>{userWords}</h1>
+          {userWords}
         </div>
         <div>
         <UserMap  
@@ -52,7 +46,7 @@ class ProfilePage extends Component {
           loadingElement={<div style={{ height: `100%`, }} />}
           containerElement={<div style={{ display: `flex`, position: `fixed`, height: `100%`, width: `100%` }} />}
           mapElement={<div style={{ 
-            height: '80%',  
+            height: '95%',  
             width: '60%',
             position: 'relative',
             marginTop: '1%',

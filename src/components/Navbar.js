@@ -11,9 +11,8 @@ class Navbar extends Component {
       if (localStorage.token){
         return (
         <Fragment >
-          <Link to={'/input'}>Search Again</Link>
-          <div style={{width: `40px`}}/>
-          <Link to={'/logout'}>Log Out</Link>
+          <div />
+          <Link style={{marginRight: '50px'}} to={'/logout'}>Log Out</Link>
           <Link to={'/profile'}>Profile</Link>
         </Fragment>
       )

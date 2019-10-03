@@ -15,8 +15,8 @@ class ProfileSidebar extends Component {
   render(){
     return(
     <div className="sidenav" >
+    <p className="greeting">Hi, {this.props.state.currentUser.username}</p>
         <NavLink to="/input" >Search Again</NavLink>
-
         <NavLink to={'/logout'}>Log Out</NavLink>
 
     </div>

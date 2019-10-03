@@ -24,7 +24,7 @@ class WordMapContainer extends Component {
           loadingElement={<div style={{ height: `100%`, }} />}
           containerElement={<div style={{ display: `flex`, position: `fixed`, height: `100%`, width: `100%` }} />}
           mapElement={<div style={{ 
-            height: '100%',  
+            height: '95%',  
             width: '60%',
             position: 'relative',
             marginTop: '1%',
