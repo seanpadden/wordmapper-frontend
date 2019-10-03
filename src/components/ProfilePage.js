@@ -12,9 +12,9 @@ class ProfilePage extends Component {
   }
 
   componentDidMount(){
-    // if (!localStorage.token || !this.props.state.currentUser.username) {
-    //   this.props.history.push('/login')
-    // } 
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
     fetch("http://localhost:3000/maps/")
       .then(resp => resp.json())
       .then(data => this.findUserMaps(data))

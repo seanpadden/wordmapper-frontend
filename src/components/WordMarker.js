@@ -14,7 +14,7 @@ class WordMarker extends Component {
 
   handleOpen = () => {
     this.setState({
-      active: true
+      active: !this.state.active
     })
   }
 
@@ -43,9 +43,7 @@ class WordMarker extends Component {
           >
         {
           this.state.active ?
-          <InfoWindow 
-            onCloseClick={this.handleClose}
-          >
+          <InfoWindow>
             <div>{stringToShow}</div>
           </InfoWindow>
           :

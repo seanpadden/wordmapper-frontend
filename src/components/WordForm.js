@@ -367,9 +367,9 @@ class WordInput extends Component {
   }
 
   componentDidMount(){
-    // if (!localStorage.token || !this.props.state.currentUser.username) {
-    //   this.props.history.push('/login')
-    // } 
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
     this.props.removeWord()
     fetch("http://localhost:3000/words")
     .then(resp => resp.json())

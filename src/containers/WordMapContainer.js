@@ -8,9 +8,9 @@ import ProfilePage from "../components/ProfilePage";
 
 class WordMapContainer extends Component {
   componentDidMount() {
-    // if (!localStorage.token || !this.props.state.currentUser.username) {
-    //   this.props.history.push('/login')
-    // } 
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
   }
   render() {
     
