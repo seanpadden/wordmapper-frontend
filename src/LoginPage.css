@@ -1,5 +1,5 @@
   body {
-    background: linear-gradient(to right, rgb(53, 47, 54), rgb(140, 35, 156));
+    background: linear-gradient(to right, #352f36, rgb(140, 35, 156));
     font-family: 'Space Mono', monospace;
   }
 
@@ -17,22 +17,22 @@
   }
 
   .btn-switch {
-      cursor: pointer;
-      border-radius: 5em;
-      /* background: linear-gradient(to right, rgb(142, 126, 144), rgb(77, 50, 82)); */
-      background: grey;
-      border: 0;
-      padding-left: 40px;
-      padding-right: 40px;
-      padding-bottom: 10px;
-      padding-top: 10px;
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: rgb(158, 36, 177);
-      background-color: rgb(161, 161, 161);
-      font-family: 'Space Mono', monospace;
+    cursor: pointer;
+    border-radius: 5em;
+    /* background: linear-gradient(to right, rgb(142, 126, 144), rgb(77, 50, 82)); */
+    background: grey;
+    border: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgb(158, 36, 177);
+    background-color: rgb(161, 161, 161);
+    font-family: 'Space Mono', monospace;
   }
 
   .btn-switch:hover {

@@ -333,7 +333,7 @@ const InputWrapper = styled.div`
 
 const ProgressBarContainer = styled.div`
   width: 300px;
-  margin-top: 200px
+  margin-top: -6em;
 `
 
 class WordInput extends Component {
@@ -367,9 +367,9 @@ class WordInput extends Component {
   }
 
   componentDidMount(){
-    if (!localStorage.token || !this.props.state.currentUser.username) {
-      this.props.history.push('/login')
-    } 
+    // if (!localStorage.token || !this.props.state.currentUser.username) {
+    //   this.props.history.push('/login')
+    // } 
     this.props.removeWord()
     fetch("http://localhost:3000/words")
     .then(resp => resp.json())
@@ -411,11 +411,12 @@ class WordInput extends Component {
         this.props.addDefinition(data[0].shortdef)
         this.props.addEtymology(data[0].et)
         this.increaseBar()
-        this.renderSecondButton()
+        // this.renderSecondButton()
         this.setState({
           wordNotFound: false,
         })
       }
+      setTimeout(() => this.compareLanguages(), 500)
     })
   }
 
@@ -448,7 +449,9 @@ class WordInput extends Component {
     }
     this.props.addLanguages(matchedLanguages)
     this.increaseBar()
-    this.renderThirdButton()
+    setTimeout(() => this.getCoordinates(), 500)
+
+    // this.renderThirdButton()
   }
   }
 
@@ -477,7 +480,9 @@ class WordInput extends Component {
     this.props.addCoordinates(coordinatesToRender)
     this.increaseBar()
     this.setCoordinates()
-    this.renderFourthButton()
+    // this.renderFourthButton()
+    setTimeout(() => this.sendToMap(), 500)
+
     }
   }
 
@@ -510,39 +515,34 @@ class WordInput extends Component {
     return(
       <div className="WordForm-component">
         <Navbar />
+        <h1 style={{textAlign: 'center', color: 'white'}}>Today's most searched word is...</h1>
+        <h2 style={{textAlign: 'center', color: 'white', textTransform: 'uppercase'}}>{this.props.state.mostCommonWord}</h2>
+        <form className="form input-field">
         {
           this.props.state.currentUser.username ?
           <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
           <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        <h1 style={{textAlign: 'left', color: 'white'}}>Today's most searched word is...</h1>
-        <h2 style={{textAlign: 'left', color: 'white'}}>{this.props.state.mostCommonWord}</h2>
-        <form className="form">
-          <input className="btn-success"
+          <input className="input-form"
             type="text" 
             value={this.state.word} 
             onChange={this.handleChange}
             name="word"
           /> 
-        <br />
-        <br />
           <input 
-            className="btn-success"
+            className="submit"
             type="submit"
             onClick={this.lookUpWord}
           />
         </form>
-        <div>
-        <br />
-          <button className={`btn-success fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
+        {/* <div>
+          <button className={`submit fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>
-        <br />
-          <button className={`btn-success fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
-          <br />
-          <br />
-          <button className={`btn-success fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
-        </div>
+          <button className={`submit fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
+       
+          <button className={`submit fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
+        </div> */}
         <InputWrapper>
           <ProgressBarContainer>
             <ProgressBar percentage={this.state.percentage} />
