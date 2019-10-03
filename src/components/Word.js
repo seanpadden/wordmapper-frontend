@@ -6,6 +6,31 @@ import '../App.css'
 
 
 class Word extends Component {
+
+  state = {
+    word: 'is-paused',
+    definition: 'is-paused',
+    date: 'is-paused'
+  }
+
+  componentDidMount(){
+    setTimeout(() => { 
+      this.setState(() => ({
+        word: ''
+      }))
+    }, 700)
+    setTimeout(() => { 
+      this.setState(() => ({
+        date: ''
+      }))
+    }, 1300)
+    setTimeout(() => { 
+      this.setState(() => ({
+        definition: ''
+      }))
+    }, 1900)
+  }
+  
   render(){
     let dumbDate = this.props.state.date
     const regex = /{(.*?)}/g
@@ -16,12 +41,10 @@ class Word extends Component {
     }
     return(
       <div className="word">
-      <h1>Your word is...</h1>
-      <h1>{this.props.state.word}</h1>
-          <h2>Definition:</h2>
-            <p>{this.props.state.shortdef[0]}</p>
-          <h2>First known use</h2>
-            <p>{dateToShow}</p>
+      <h1 className={`fade-in ${this.state.word}`}>{this.props.state.word}</h1>
+            <h3 className={`fade-in ${this.state.date}`}>First known use: {dateToShow}</h3>
+            <p className={`fade-in ${this.state.definition}`}>{this.props.state.shortdef[0]}</p>
+          
           </div>
 
     )
