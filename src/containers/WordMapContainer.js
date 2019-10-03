@@ -3,9 +3,15 @@ import {connect} from 'react-redux'
 import WordMap from "../components/WordMap";
 import Sidebar from './Sidebar.js'
 import Word from "../components/Word";
+import ProfilePage from "../components/ProfilePage";
+
 
 class WordMapContainer extends Component {
-  
+  componentDidMount() {
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
+  }
   render() {
     
     return (
@@ -18,7 +24,7 @@ class WordMapContainer extends Component {
           loadingElement={<div style={{ height: `100%`, }} />}
           containerElement={<div style={{ display: `flex`, position: `fixed`, height: `100%`, width: `100%` }} />}
           mapElement={<div style={{ 
-            height: '100%',  
+            height: '95%',  
             width: '60%',
             position: 'relative',
             marginTop: '1%',
@@ -28,7 +34,8 @@ class WordMapContainer extends Component {
             />}
         />
         </div>
-        
+        <div>
+        </div>
       </div>
     )
   }

@@ -11,8 +11,7 @@ const initialState = {
     user_id: null,
     word_name: '',
     etymology: '',
-    lat: 0,
-    lng: 0
+    coordinates: {}
   }
 }
 

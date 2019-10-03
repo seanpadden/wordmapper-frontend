@@ -367,6 +367,9 @@ class WordInput extends Component {
   }
 
   componentDidMount(){
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
     this.props.removeWord()
     fetch("http://localhost:3000/words")
     .then(resp => resp.json())
@@ -375,7 +378,6 @@ class WordInput extends Component {
 
   findMostCommonWord = (words) => {
     let wordArr = words.map(word => word.word_name)
-    console.log(wordArr)
     let mostCommon = wordArr.sort((a,b) =>
           wordArr.filter(v => v===a).length
         - wordArr.filter(v => v===b).length
@@ -513,7 +515,7 @@ class WordInput extends Component {
           <h1 className="nice-text">Hello {this.props.state.currentUser.username}. <br/> Enter a word.</h1> :
           <h1 className="nice-text">Hello stranger. <br/> Enter a word.</h1>
         }
-        <h1 style={{textAlign: 'left', color: 'white'}}>The current most searched word is: </h1>
+        <h1 style={{textAlign: 'left', color: 'white'}}>Today's most searched word is...</h1>
         <h2 style={{textAlign: 'left', color: 'white'}}>{this.props.state.mostCommonWord}</h2>
         <form className="form">
           <input className="btn-success"

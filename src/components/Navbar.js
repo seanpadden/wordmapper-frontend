@@ -1,17 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
+import '../LoginPage.css'
 
 
 class Navbar extends Component {
 
   render(){
     const navLinks = () => {
-      if (localStorage.getItem("token")){
+      if (localStorage.token){
         return (
-        <Fragment>
-          <Link to={'/profile'}>Your Profile</Link>
-          <Link to={'/logout'}>Log Out</Link>
+        <Fragment >
+          <div />
+          <Link style={{marginRight: '50px'}} to={'/logout'}>Log Out</Link>
+          <Link to={'/profile'}>Profile</Link>
         </Fragment>
       )
       } else {

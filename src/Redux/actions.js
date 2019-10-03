@@ -82,15 +82,12 @@ export const saveMapFetch = (word) => {
         user_id: word.currentUser.id,
         word_name: word.word,
         etymology: word.etymology[0][1],
-        lat: word.currentLocation[0].lat,
-        lng: word.currentLocation[0].lng 
+        coordinates: word.currentLocation
       })
     })
       .then(resp => resp.json())
       .then(data => {
-        debugger 
         if (!data.error){
-          debugger 
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))
         }

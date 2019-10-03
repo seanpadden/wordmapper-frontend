@@ -19,9 +19,10 @@ class LoginSignupContainer extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div>
+        <h1 className="header">WordMapper</h1>
+
         {this.state.signupClicked ?
         <SignUpPage 
           loginClicked={this.state.loginClicked}
