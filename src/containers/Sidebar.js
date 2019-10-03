@@ -19,7 +19,6 @@ class Sidebar extends Component {
         <NavLink to="/input" >Search Again</NavLink>
         <NavLink to="/profile" >Profile</NavLink>
         <NavLink to="/logout" >Logout</NavLink>
-
     </div>
     )
   }
