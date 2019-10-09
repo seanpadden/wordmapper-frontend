@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import Navbar from './Navbar.js'
 import UserMap from './UserMap.js'
 import ProfileSidebar from './ProfileSidebar.js'
 
@@ -15,7 +14,7 @@ class ProfilePage extends Component {
     if (!localStorage.token || !this.props.state.currentUser.username) {
       this.props.history.push('/login')
     } 
-    fetch("http://localhost:3000/maps/")
+    fetch("https://wordmapper-backend.herokuapp.com/maps")
       .then(resp => resp.json())
       .then(data => this.findUserMaps(data))
   }

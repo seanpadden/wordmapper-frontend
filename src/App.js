@@ -21,10 +21,11 @@ render(){
 return (
   <div className="App">
     <Switch>
+      <Route exact path={'/'} render={routerProps => <LoginSignupContainer {...routerProps} />} />
+      <Route path={'/login'} render={routerProps => <LoginSignupContainer {...routerProps} />} />
       <Route
         path={'/profile'}
         render={routerProps => <ProfilePage {...routerProps} />} />
-      <Route path={'/login'} render={routerProps => <LoginSignupContainer {...routerProps} />} />
       <Route path={'/input'} component={WordForm} />
       <Route path={'/loading'} component={LoadingScreen} />
       <Route path={'/logout'} component={LogOut} />

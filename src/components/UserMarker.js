@@ -5,8 +5,6 @@ import grimboi from './grimboi.svg'
 
 
 class UserMarker extends Component {
-
-
   render(){
     return(
       <div>
