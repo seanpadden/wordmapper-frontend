@@ -219,7 +219,6 @@ const allTheLanguages = [
   'Spanish,',
   'Castilian',
   'Castilian,',
-
   'Sundanese',
   'Swahili',
   'Swati',

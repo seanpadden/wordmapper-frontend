@@ -14,10 +14,10 @@ class WordMapContainer extends Component {
   render() {
     
     return (
-      <div >
+      <div className="map-container">
         <Sidebar/>
         <Word/>
-        <div className="mapParent?" style={{display: `flex`, position: `fixed`, top: 0, bottom: 0, left: 0, right: 0}}>
+        <div className="map" >
         <WordMap 
           googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${process.env.REACT_APP_GOOGLE_API_KEY}`}
           loadingElement={<div style={{ height: `100%`, }} />}

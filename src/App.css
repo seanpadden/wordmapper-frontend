@@ -32,10 +32,17 @@
   }
 }
 
+.map-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .sidenav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-grow: 1;
   height: 60%; /* Full-height: remove this if you want "auto" height */
   margin-top: 1%;
   width: 160px; /* Set the width of the sidebar */
@@ -51,6 +58,7 @@
   display: flex;
   flex-direction: column;
   position: absolute;
+  flex-grow: 1;
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 20%; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
@@ -60,6 +68,14 @@
   padding-top: 20px;
   margin-left: 13%;
   color: rgb(234, 206, 245);
+}
+
+.map {
+  display: flex; 
+  position: absolute; 
+  flex-grow: 2;
+
+  width: 60%;
 }
 
 .sidenav-profile {
@@ -150,5 +166,22 @@
   text-transform: uppercase;
   color: rgb(158, 36, 177);
   background-color: rgb(161, 161, 161);
+  font-family: 'Space Mono', monospace;
+}
+
+.save {
+  cursor: pointer;
+  border-radius: 5em;
+  background: linear-gradient(to right, #9C27B0, #E040FB);
+  border: 0;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgb(234, 206, 245);
   font-family: 'Space Mono', monospace;
 }

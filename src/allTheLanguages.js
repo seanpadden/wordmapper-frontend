@@ -1,4 +1,4 @@
-const allTheLanguages = [ 
+const allTheLanuages = [ 
   'Abkhazian',
   'Afar',
   'Afrikaans',
@@ -210,4 +210,4 @@ const allTheLanguages = [
   'Zhuang', 
   'Chuang',
   'Zulu' 
-];
+]
