@@ -219,7 +219,6 @@ const allTheLanguages = [
   'Spanish,',
   'Castilian',
   'Castilian,',
-
   'Sundanese',
   'Swahili',
   'Swati',
@@ -371,7 +370,7 @@ class WordInput extends Component {
     //   this.props.history.push('/login')
     // } 
     this.props.removeWord()
-    fetch("http://localhost:3000/words")
+    fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
     .then(data => this.findMostCommonWord(data))    
   }
@@ -535,7 +534,10 @@ class WordInput extends Component {
             onClick={this.lookUpWord}
           />
         </form>
-        {/* <div>
+        
+        
+        {/* OLD BUTTONS
+        <div>
           <button className={`submit fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
         </div>
         <div>

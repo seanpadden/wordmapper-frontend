@@ -1,6 +1,6 @@
 export const userPostFetch = (user, history) => {
   return dispatch => {
-    return fetch("http://localhost:3000/signup", {
+    return fetch("https://wordmapper-backend.herokuapp.com/signup", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const userPostFetch = (user, history) => {
 
 export const userLoginFetch = (user, history) => {
   return dispatch => {
-    fetch('http://localhost:3000/login', {
+    fetch('https://wordmapper-backend.herokuapp.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

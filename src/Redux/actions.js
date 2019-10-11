@@ -48,7 +48,7 @@ export const addDefinition = (definition) => {
 
 export const wordPostFetch = (word) => {
   return dispatch => {
-    return fetch("http://localhost:3000/words", {
+    return fetch("https://wordmapper-backend.herokuapp.com/words", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export const addMostCommonWord = (word) => {
 
 export const saveMapFetch = (word) => {
   return dispatch => {
-    return fetch("http://localhost:3000/savemap", {
+    return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
