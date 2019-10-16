@@ -366,9 +366,9 @@ class WordInput extends Component {
   }
 
   componentDidMount(){
-    // if (!localStorage.token || !this.props.state.currentUser.username) {
-    //   this.props.history.push('/login')
-    // } 
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
     this.props.removeWord()
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
@@ -410,7 +410,6 @@ class WordInput extends Component {
         this.props.addDefinition(data[0].shortdef)
         this.props.addEtymology(data[0].et)
         this.increaseBar()
-        // this.renderSecondButton()
         this.setState({
           wordNotFound: false,
         })
@@ -449,9 +448,7 @@ class WordInput extends Component {
     this.props.addLanguages(matchedLanguages)
     this.increaseBar()
     setTimeout(() => this.getCoordinates(), 500)
-
-    // this.renderThirdButton()
-  }
+    }
   }
 
   ///Finds origin country coordinates for each language!!!
@@ -479,7 +476,6 @@ class WordInput extends Component {
     this.props.addCoordinates(coordinatesToRender)
     this.increaseBar()
     this.setCoordinates()
-    // this.renderFourthButton()
     setTimeout(() => this.sendToMap(), 500)
 
     }
