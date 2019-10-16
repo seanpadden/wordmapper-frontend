@@ -534,17 +534,6 @@ class WordInput extends Component {
             onClick={this.lookUpWord}
           />
         </form>
-        
-        
-        {/* OLD BUTTONS
-        <div>
-          <button className={`submit fade-in ${this.state.btn1}`} onClick={this.compareLanguages}>Find Lanuages</button>
-        </div>
-        <div>
-          <button className={`submit fade-in ${this.state.btn2}`} onClick={this.getCoordinates}>Get coordinates</button>
-       
-          <button className={`submit fade-in ${this.state.btn3}`} onClick={this.sendToMap}>Generate your map!</button>
-        </div> */}
         <InputWrapper>
           <ProgressBarContainer>
             <ProgressBar percentage={this.state.percentage} />
