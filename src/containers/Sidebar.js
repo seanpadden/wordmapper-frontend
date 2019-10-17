@@ -15,7 +15,7 @@ class Sidebar extends Component {
   render(){
     return(
       <div className="sidenav" >
-        <button className="save" onClick={this.handleClick}>OMG I love this!!</button>
+        <button className="save" onClick={this.handleClick}>Save this word</button>
         <NavLink to="/input" >Search Again</NavLink>
         <NavLink to="/profile" >Profile</NavLink>
         <NavLink to="/logout" >Logout</NavLink>
