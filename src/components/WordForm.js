@@ -342,39 +342,23 @@ class WordInput extends Component {
     wordNotFound: false,
     username: '',
     percentage: 0,
-    hasCoordinates: false,
-    btn1: 'is-paused',
-    btn2: 'is-paused',
-    btn3: 'is-paused'
-  }
-  
-  renderSecondButton = () => {
-    this.setState({
-      btn1: ""
-    })
+    hasCoordinates: false
   }
 
-  renderThirdButton = () => {
-    this.setState({
-      btn2: ""
-    })
-  }
-  renderFourthButton = () => {
-    this.setState({
-      btn3: ""
-    })
-  }
-
+  /// If user is not logged in, send them back to login page. 
   componentDidMount(){
     if (!localStorage.token || !this.props.state.currentUser.username) {
       this.props.history.push('/login')
     } 
+    /// Refresh Redux word state 
     this.props.removeWord()
+    /// Fetch all the words from backend
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
     .then(data => this.findMostCommonWord(data))    
   }
 
+  /// Find the current most searched word and render it
   findMostCommonWord = (words) => {
     let wordArr = words.map(word => word.word_name)
     let mostCommon = wordArr.sort((a,b) =>
@@ -397,7 +381,7 @@ class WordInput extends Component {
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => {
-      if (data[0].et === undefined) {
+      if (data.length === 0 || data[0].et === undefined) {
         alert("We couldn't find origins for this word!")
         this.props.removeWord(e)
         this.setState({
@@ -420,7 +404,6 @@ class WordInput extends Component {
 
   ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
-    // e.preventDefault()
     if (this.props.state.word === ""){
       alert("please enter a valid word")
       this.setState({
