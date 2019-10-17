@@ -26,11 +26,11 @@ class LoginPage extends Component {
       <button className="btn-switch" onClick={this.props.handleSwitch}>Sign Up</button>
       <div class="divider"/>
       <button className="btn-switch" >Log In</button>
-        <p className="sign">sign in plz</p>
+        <p className="sign">Sign in please</p>
           <form className="form1" onSubmit={this.handleSubmit}>
             <input className="un" placeholder="Username" onChange={this.handleChange} value={this.state.username} type="text" name="username"/>
             <input className="pass" placeholder="Password" onChange={this.handleChange} value={this.state.password} type="password" name="password"/>
-            <input className="submit" type="submit" value="Bloop"/>
+            <input className="submit" type="submit" value="Log in!"/>
           </form>
       </div>
     )
