@@ -33,11 +33,11 @@ class SignUpPage extends Component {
       <button className="btn-switch">Sign Up</button>
       <div class="divider"/>
       <button className="btn-switch" onClick={this.props.handleSwitch}>Log In</button>
-        <p className="sign">register here plz</p>
+        <p className="sign">Register here please</p>
           <form className="form1" onSubmit={this.handleSubmit}>
             <input className="un"  onChange={this.handleChange} value={this.state.username} placeholder="Username" type="text" name="username"/>
             <input className="pass" onChange={this.handleChange} value={this.state.password} placeholder="password" type="password" name="password"/>
-            <input className="submit" type="submit" value="Join Us"/>
+            <input className="submit" type="submit" value="Sign up!"/>
           </form>
       </div>
     );
