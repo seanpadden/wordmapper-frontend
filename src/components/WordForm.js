@@ -368,9 +368,14 @@ class WordInput extends Component {
     }
 
   handleChange = (e) => {
+    /// No special characters or numbers!
+    let regex = /[0-9]|`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\_|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\;|\:|\s/g
+    if (regex.test(e.target.value)) {
+      alert("No numbers or special characters!")
+    } else {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    })}
   }
 
   ///Gets etymology from API
