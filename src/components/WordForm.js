@@ -339,7 +339,6 @@ class WordInput extends Component {
 
   state = {
     word: '',
-    wordNotFound: false,
     username: '',
     percentage: 0,
     hasCoordinates: false
@@ -381,12 +380,10 @@ class WordInput extends Component {
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => {
+      console.log(data)
       if (data.length === 0 || data[0].et === undefined) {
         alert("We couldn't find origins for this word!")
         this.props.removeWord(e)
-        this.setState({
-          wordNotFound: true,
-        })
       } 
       else  {
         this.props.addWord(word)
@@ -394,9 +391,6 @@ class WordInput extends Component {
         this.props.addDefinition(data[0].shortdef)
         this.props.addEtymology(data[0].et)
         this.increaseBar()
-        this.setState({
-          wordNotFound: false,
-        })
       }
       setTimeout(() => this.compareLanguages(), 500)
     })
