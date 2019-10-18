@@ -6,11 +6,11 @@ import Word from "../components/Word";
 
 
 class WordMapContainer extends Component {
-  // componentDidMount() {
-  //   if (!localStorage.token || !this.props.state.currentUser.username) {
-  //     this.props.history.push('/login')
-  //   } 
-  // }
+  componentDidMount() {
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    } 
+  }
   render() {
     
     return (
