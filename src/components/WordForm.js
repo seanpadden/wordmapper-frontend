@@ -17,6 +17,7 @@ import '../WordForm.css'
 ///API KEY\\\
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
 
+/// Louisiana Creole or Haitian Creole {it}zonbi{/it}, of Bantu origin; akin to Kimbundu {it}nzúmbe{/it} ghost
 const allTheLanguages = [ 
   'Abkhazian',
   'Afar',
@@ -35,6 +36,7 @@ const allTheLanguages = [
   'Aymara',
   'Azerbaijani',
   'Bambara',
+  'Bantu',
   'Bashkir',
   'Basque',
   'Belarusian',
@@ -109,8 +111,7 @@ const allTheLanguages = [
   'Kalaallisut',
   'Guarani',
   'Gujarati',
-  'Haitian', 
-  'Haitian Creole',
+  'Haitian',
   'Hausa',
   'Hebrew',
   'Herero',
@@ -132,6 +133,7 @@ const allTheLanguages = [
   'Kanuri',
   'Kashmiri',
   'Kazakh',
+  'Kimbundu',
   'Kinyarwanda',
   'Komi',
   'Kongo',
@@ -152,6 +154,7 @@ const allTheLanguages = [
   'Lingala',
   'Lithuanian',
   'Lithuanian,',
+  'Louisiana',
   'Luba-Katanga',
   'Macedonian',
   'Malagasy',
@@ -320,9 +323,11 @@ const  languagesToCoordinates = [{
   Algonquian: {lat: 45.5017, lng: -73.5673},
   'Algonquian,': {lat: 45.5017, lng: -73.5673},
   Nahuatl: {lat: 20.683056, lng: -88.568611},
-  "Nahuatl,": {lat: 20.683056, lng: -88.568611}
-
-
+  "Nahuatl,": {lat: 20.683056, lng: -88.568611},
+  Louisiana: {lat: 29.9511, lng: -90.0715},
+  Haitian: {lat: 18.9712, lng: -72.2852},
+  Bantu: {lat: 7.3775, lng: 3.9470},
+  Kimbundu: {lat: -11.2027, lng: 17.8739}
 }]
 
 const InputWrapper = styled.div`
@@ -427,6 +432,7 @@ class WordInput extends Component {
         }
       }
     }
+    debugger 
     this.props.addLanguages(matchedLanguages)
     this.increaseBar()
     setTimeout(() => this.getCoordinates(), 500)
