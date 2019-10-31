@@ -359,7 +359,7 @@ class WordInput extends Component {
     /// Fetch all the words from backend
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
-    .then(data => this.findMostCommonWord(data))    
+    .then(data => this.findMostCommonWord(data))
   }
 
   /// Find the current most searched word and render it
@@ -391,6 +391,7 @@ class WordInput extends Component {
     .then(resp => resp.json())
     .then(data => {
       console.log(data)
+      debugger 
       if (data.length === 0 || data[0].et === undefined) {
         alert("We couldn't find origins for this word!")
         this.props.removeWord(e)
@@ -416,26 +417,26 @@ class WordInput extends Component {
     }
     else if (this.props.state.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
-    } else {
-    let copiedStr = this.props.state.etymology[0][1]
-    let arr = copiedStr.split(" ")
-    /// ...new Set prevents duplicates
-    let currentLanguages = [...new Set(arr)]
-    let matchedLanguages = []
+    } 
+    else {
+      let copiedStr = this.props.state.etymology[0][1]
+      let arr = copiedStr.split(" ")
+      /// ...new Set prevents duplicates
+      let currentLanguages = [...new Set(arr)]
+      let matchedLanguages = []
 
-    for (let i = 0; i < currentLanguages.length; i++) {
-      for (let j = 0; j < allTheLanguages.length; j++) {
-        let temp = allTheLanguages[j].split(", ")
-        if (currentLanguages[i] == temp[0]) {
-          matchedLanguages.push(allTheLanguages[j])
-          break
+      for (let i = 0; i < currentLanguages.length; i++) {
+        for (let j = 0; j < allTheLanguages.length; j++) {
+          let temp = allTheLanguages[j].split(", ")
+          if (currentLanguages[i] == temp[0]) {
+            matchedLanguages.push(allTheLanguages[j])
+            break
+          }
         }
       }
-    }
-    debugger 
-    this.props.addLanguages(matchedLanguages)
-    this.increaseBar()
-    setTimeout(() => this.getCoordinates(), 500)
+      this.props.addLanguages(matchedLanguages)
+      this.increaseBar()
+      setTimeout(() => this.getCoordinates(), 500)
     }
   }
 
@@ -451,14 +452,14 @@ class WordInput extends Component {
     let coordinatesToRender = []
     let myLanguages = [...this.props.state.languages]
       myLanguages.map((lang => {
-        let eachLanguage = lang
-        for (let i=0; languagesToCoordinates.length; i++) {
-          for (const language in languagesToCoordinates[i]) {
-            if (language == eachLanguage) {
-              coordinatesToRender.push(languagesToCoordinates[i][language])
-            }
+      let eachLanguage = lang
+      for (let i=0; languagesToCoordinates.length; i++) {
+        for (const language in languagesToCoordinates[i]) {
+          if (language == eachLanguage) {
+            coordinatesToRender.push(languagesToCoordinates[i][language])
           }
-        break 
+        }
+      break 
       }
     }))
     this.props.addCoordinates(coordinatesToRender)
