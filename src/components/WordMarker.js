@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Marker, InfoWindow } from "react-google-maps";
 import {connect} from 'react-redux'
 import greyghostboi from './greyghostboi.svg'
-import parchment from './parchment.svg'
+import featherpad from './featherpad.svg'
 
 
 class WordMarker extends Component {
@@ -38,7 +38,7 @@ class WordMarker extends Component {
           position={this.props.position}
           onClick={this.handleOpen}
           animation={window.google.maps.Animation.DROP}
-          icon={parchment}
+          icon={featherpad}
           >
         {
           this.state.active ?
