@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { Marker, Polyline } from "react-google-maps";
 import {connect} from 'react-redux'
-// import grimboi from './grimboi.svg'
 import featherpad from './featherpad.svg'
 
 
