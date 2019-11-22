@@ -419,15 +419,15 @@ class WordInput extends Component {
       alert("Woops, no origin found for this one.")
     } 
     else {
-      let copiedStr = this.props.state.etymology[0][1]
-      let arr = copiedStr.split(" ")
+      let etymologyStr = this.props.state.etymology[0][1]
+      let languageArr = etymologyStr.split(" ")
       /// ...new Set prevents duplicates
-      let currentLanguages = [...new Set(arr)]
+      let currentLanguages = [...new Set(languageArr)]
       let matchedLanguages = []
-
       for (let i = 0; i < currentLanguages.length; i++) {
         for (let j = 0; j < allTheLanguages.length; j++) {
           let temp = allTheLanguages[j].split(", ")
+          debugger
           if (currentLanguages[i] == temp[0]) {
             matchedLanguages.push(allTheLanguages[j])
             break
