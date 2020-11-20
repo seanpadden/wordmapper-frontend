@@ -30,8 +30,8 @@ class SignUpPage extends Component {
   render() {
     return (
       <div className="main">
-      <button className="btn-switch">Sign Up</button>
-      <div class="divider"/>
+        <button className="btn-switch">Sign Up</button>
+      <div className="divider"/>
       <button className="btn-switch" onClick={this.props.handleSwitch}>Log In</button>
         <p className="sign">Register here please</p>
           <form className="form1" onSubmit={this.handleSubmit}>

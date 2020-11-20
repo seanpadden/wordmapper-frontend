@@ -23,8 +23,8 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="main">
-      <button className="btn-switch" onClick={this.props.handleSwitch}>Sign Up</button>
-      <div class="divider"/>
+        <button className="btn-switch" onClick={this.props.handleSwitch}>Sign Up</button>
+      <div className="divider"/>
       <button className="btn-switch" >Log In</button>
         <p className="sign">Sign in please</p>
           <form className="form1" onSubmit={this.handleSubmit}>
