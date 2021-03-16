@@ -1,7 +1,7 @@
-export const addWord = (word) => {
+export const addWord = (word, data) => {
   return {
     type: "ADD_WORD",
-    payload: word
+    payload: word, data
   }
 }
 
@@ -23,26 +23,6 @@ export const addCoordinates = (coordinates) => {
   return {
     type: "ADD_COORDINATES",
     payload: coordinates
-  }
-}
-
-export const addEtymology = (etymology) => {
-  return {
-    type: "ADD_ETYMOLOGY",
-    payload: etymology 
-  }
-}
-
-export const addDate = (date) => {
-  return {
-    type: "ADD_DATE",
-    payload: date 
-  }
-}
-export const addDefinition = (definition) => {
-  return {
-    type: "ADD_DEFINITION",
-    payload: definition 
   }
 }
 

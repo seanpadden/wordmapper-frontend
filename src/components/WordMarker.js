@@ -25,7 +25,7 @@ class WordMarker extends Component {
 
   render(){
     ///Get rid of weird characters in etymology string
-    let etyArray = this.props.state.etymology[0]
+    let etyArray = this.props.state.word.etymology[0]
     let etyString = etyArray[1]
     const regex = /{(.*?)}/g
     if (regex.test(etyString)){

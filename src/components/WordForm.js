@@ -5,14 +5,15 @@ import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {removeWord} from '../Redux/actions.js'
 import {addCoordinates} from '../Redux/actions.js'
-import {addEtymology} from '../Redux/actions.js'
+
 import {addLanguages} from '../Redux/actions.js'
-import {addDate} from '../Redux/actions.js'
-import {addDefinition} from '../Redux/actions.js'
+
+
 import {wordPostFetch} from '../Redux/actions.js'
 import {addMostCommonWord} from '../Redux/actions.js'
 import Navbar from './Navbar'
 import '../WordForm.css'
+import {testFunc} from '../lib/testFunc.js'
 
 ///API KEY\\\
 const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
@@ -38,11 +39,11 @@ class WordInput extends Component {
 
   /// If user is not logged in, send them back to login page. 
   componentDidMount(){
-    if (!localStorage.token || !this.props.state.currentUser.username) {
-      this.props.history.push('/login')
-    } 
+    // if (!localStorage.token || !this.props.state.currentUser.username) {
+    //   this.props.history.push('/login')
+    // } 
     /// Refresh Redux word state 
-    this.props.removeWord()
+    // this.props.removeWord()
     /// Fetch all the words from backend
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
@@ -70,6 +71,11 @@ class WordInput extends Component {
     })}
   }
 
+  // clickHandler = (e) => {
+  //   e.preventDefault()
+  //   lookUpWord(this.state.word)
+  // }
+
   ///Gets etymology from API
   lookUpWord = (e) => {
     e.preventDefault()
@@ -83,10 +89,7 @@ class WordInput extends Component {
         this.props.removeWord(e)
       } 
       else  {
-        this.props.addWord(word)
-        this.props.addDate(data[0].date)
-        this.props.addDefinition(data[0].shortdef)
-        this.props.addEtymology(data[0].et)
+        this.props.addWord(word, data[0])
         this.increaseBar()
       }
       setTimeout(() => this.compareLanguages(), 500)
@@ -95,17 +98,18 @@ class WordInput extends Component {
 
   ///Extracts languages from etymology string and returns an array of languages
   compareLanguages = (e) => {
-    if (this.props.state.word === ""){
+    debugger
+    if (this.props.state.word.word === ""){
       alert("please enter a valid word")
       this.setState({
         percentage: 0
       })
     }
-    else if (this.props.state.etymology[0][1] === "origin unknown") {
+    else if (this.props.state.word.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
     } 
     else {
-      let etymologyStr = this.props.state.etymology[0][1]
+      let etymologyStr = this.props.state.word.etymology[0][1]
       let languageArr = etymologyStr.split(" ")
       /// ...new Set prevents duplicates
       let currentLanguages = [...new Set(languageArr)]
@@ -162,7 +166,7 @@ class WordInput extends Component {
         percentage: this.state.percentage = 0
       })
     } else {
-      let wordToSend = this.props.state.word.toLowerCase()
+      let wordToSend = this.props.state.word.word.toLowerCase()
       this.props.wordPostFetch(wordToSend)
       this.props.history.push('/loading')
     }
@@ -220,4 +224,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addEtymology, addLanguages, addDate, addDefinition, wordPostFetch, addMostCommonWord})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addLanguages, wordPostFetch, addMostCommonWord})(WordInput)
