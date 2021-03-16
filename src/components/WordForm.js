@@ -5,10 +5,7 @@ import {connect} from 'react-redux'
 import {addWord} from '../Redux/actions.js'
 import {removeWord} from '../Redux/actions.js'
 import {addCoordinates} from '../Redux/actions.js'
-
 import {addLanguages} from '../Redux/actions.js'
-
-
 import {wordPostFetch} from '../Redux/actions.js'
 import {addMostCommonWord} from '../Redux/actions.js'
 import Navbar from './Navbar'
@@ -43,7 +40,7 @@ class WordInput extends Component {
     //   this.props.history.push('/login')
     // } 
     /// Refresh Redux word state 
-    // this.props.removeWord()
+    this.props.removeWord()
     /// Fetch all the words from backend
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
@@ -83,7 +80,6 @@ class WordInput extends Component {
     fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
     .then(resp => resp.json())
     .then(data => {
-      console.log(data)
       if (data.length === 0 || data[0].et === undefined) {
         alert("We couldn't find origins for this word!")
         this.props.removeWord(e)

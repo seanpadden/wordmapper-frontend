@@ -7,8 +7,7 @@ export const addWord = (word, data) => {
 
 export const removeWord = () => {
   return {
-    type: "REMOVE_WORD",
-    payload: ""
+    type: "REMOVE_WORD"
   }
 }
 

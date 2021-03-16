@@ -1,8 +1,7 @@
 import React, { Component } from "react"
 import { Marker, InfoWindow } from "react-google-maps";
 import {connect} from 'react-redux'
-import greyghostboi from './greyghostboi.svg'
-import featherpad from './featherpad.svg'
+import featherpad from '../styles/images/featherpad.svg'
 
 
 class WordMarker extends Component {

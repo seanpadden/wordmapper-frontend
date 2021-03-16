@@ -325,19 +325,15 @@ const initialState = {
 const reducer = (state = initialState, action ) => {
   switch (action.type) {
     case "ADD_WORD":
-      // debugger
-      return {
-        ...state, 
-        word: {
+      return {...state, word: {
           word: action.payload,
           etymology: action.data.et,
           date: action.data.date,
           shortdef: action.data.shortdef
         }
       }
-      
     case "REMOVE_WORD":
-      return {...state, word: ""}
+      return {...state, word: {}}
     case "ADD_COORDINATES": 
       return {...state, currentLocation: action.payload}
     case "ADD_LANGUAGES":
