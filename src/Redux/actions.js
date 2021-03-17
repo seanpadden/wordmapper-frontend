@@ -50,6 +50,7 @@ export const addMostCommonWord = (word) => {
 
 
 export const saveMapFetch = (obj) => {
+  debugger
   return dispatch => {
     return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
@@ -59,7 +60,7 @@ export const saveMapFetch = (obj) => {
       },
       body: JSON.stringify({
         user_id: obj.currentUser.id,
-        word_name: obj.word,
+        word_name: obj.word.word,
         etymology: obj.word.etymology[0][1],
         coordinates: obj.currentLocation
       })
@@ -71,9 +72,7 @@ export const saveMapFetch = (obj) => {
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))
         }
-        else {
-          alert("Sry, but you gotta be logged in to save a map")
-        }
+        else alert("You need to be logged in to save a map!")
       })
   }
 }

@@ -21,12 +21,10 @@ class Dashboard extends Component {
   }
 
   componentDidMount(){
-    // if (!localStorage.token || !this.props.state.currentUser.username) {
-    //   this.props.history.push('/login')
-    // } 
-    /// Refresh Redux word state 
+    if (!localStorage.token || !this.props.state.currentUser.username) {
+      this.props.history.push('/login')
+    }
     this.props.removeWord()
-    /// Fetch all the words from backend
     fetch("https://wordmapper-backend.herokuapp.com/words")
     .then(resp => resp.json())
     .then(data => this.findMostCommonWord(data))

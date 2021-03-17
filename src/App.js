@@ -7,6 +7,7 @@ import LoginSignupContainer from './containers/LoginSignupContainer.js'
 import LoadingScreen from './components/LoadingScreen.js'
 import LogOut from './components/LogOut.js'
 import WordMapContainer from './containers/WordMapContainer.js'
+import Footer from './components/Footer.js'
   
 class App extends Component {
 
