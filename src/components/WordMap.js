@@ -2,9 +2,8 @@ import React, { Component } from "react"
 import { withScriptjs, withGoogleMap, GoogleMap, Polyline} from "react-google-maps"
 import WordMarker from './WordMarker.js'
 import {connect} from 'react-redux'
-import Word from './Word.js'
 
-const styles = require('../GoogleMapStyles.json')
+const styles = require('../styles/map-styles/GoogleMapStyles.json')
 
 class WordMap extends Component {
   render(){

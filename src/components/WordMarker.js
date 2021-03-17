@@ -1,8 +1,7 @@
 import React, { Component } from "react"
 import { Marker, InfoWindow } from "react-google-maps";
 import {connect} from 'react-redux'
-import greyghostboi from './greyghostboi.svg'
-import featherpad from './featherpad.svg'
+import featherpad from '../styles/images/featherpad.svg'
 
 
 class WordMarker extends Component {
@@ -25,7 +24,7 @@ class WordMarker extends Component {
 
   render(){
     ///Get rid of weird characters in etymology string
-    let etyArray = this.props.state.etymology[0]
+    let etyArray = this.props.state.word.etymology[0]
     let etyString = etyArray[1]
     const regex = /{(.*?)}/g
     if (regex.test(etyString)){

@@ -1,7 +1,7 @@
 import React, { Component } from "react"
-import { Marker, Polyline } from "react-google-maps";
+import { Marker } from "react-google-maps";
 import {connect} from 'react-redux'
-import featherpad from './featherpad.svg'
+import featherpad from '../styles/images/featherpad.svg'
 
 
 class UserMarker extends Component {

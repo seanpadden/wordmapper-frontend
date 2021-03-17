@@ -1,14 +1,13 @@
-export const addWord = (word) => {
+export const addWord = (word, data) => {
   return {
     type: "ADD_WORD",
-    payload: word
+    payload: word, data
   }
 }
 
 export const removeWord = () => {
   return {
-    type: "REMOVE_WORD",
-    payload: ""
+    type: "REMOVE_WORD"
   }
 }
 
@@ -23,26 +22,6 @@ export const addCoordinates = (coordinates) => {
   return {
     type: "ADD_COORDINATES",
     payload: coordinates
-  }
-}
-
-export const addEtymology = (etymology) => {
-  return {
-    type: "ADD_ETYMOLOGY",
-    payload: etymology 
-  }
-}
-
-export const addDate = (date) => {
-  return {
-    type: "ADD_DATE",
-    payload: date 
-  }
-}
-export const addDefinition = (definition) => {
-  return {
-    type: "ADD_DEFINITION",
-    payload: definition 
   }
 }
 
@@ -70,7 +49,8 @@ export const addMostCommonWord = (word) => {
 }
 
 
-export const saveMapFetch = (word) => {
+export const saveMapFetch = (obj) => {
+  debugger
   return dispatch => {
     return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
@@ -79,21 +59,20 @@ export const saveMapFetch = (word) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        user_id: word.currentUser.id,
-        word_name: word.word,
-        etymology: word.etymology[0][1],
-        coordinates: word.currentLocation
+        user_id: obj.currentUser.id,
+        word_name: obj.word.word,
+        etymology: obj.word.etymology[0][1],
+        coordinates: obj.currentLocation
       })
     })
       .then(resp => resp.json())
       .then(data => {
+        debugger 
         if (!data.error){
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))
         }
-        else {
-          alert("Sry, but you gotta be logged in to save a map")
-        }
+        else alert("You need to be logged in to save a map!")
       })
   }
 }

@@ -4,15 +4,15 @@ import WordMap from "../components/WordMap";
 import Sidebar from './Sidebar.js'
 import Word from "../components/Word";
 
-
 class WordMapContainer extends Component {
+
   componentDidMount() {
     if (!localStorage.token || !this.props.state.currentUser.username) {
       this.props.history.push('/login')
     } 
   }
+
   render() {
-    console.log(process.env.REACT_APP_GOOGLE_API_KEY)
     return (
       <div className="map-container">
         <Sidebar/>

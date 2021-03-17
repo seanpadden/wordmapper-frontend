@@ -16,7 +16,7 @@ export const userPostFetch = (user, history) => {
           history.push('/input')
         } 
         else {
-          alert("Username already exists. Plz try again")
+          alert("Username already exists. Please try again")
         }
       }
       )
