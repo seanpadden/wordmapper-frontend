@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
-import ProgressBar from '../components/ProgressBar'
-import styled from 'styled-components'
 import {connect} from 'react-redux'
-import {addWord} from '../Redux/actions.js'
-import {removeWord} from '../Redux/actions.js'
-import {addCoordinates} from '../Redux/actions.js'
-import {addLanguages} from '../Redux/actions.js'
-import {wordPostFetch} from '../Redux/actions.js'
-import {addMostCommonWord} from '../Redux/actions.js'
+import {
+  addWord, 
+  removeWord, 
+  addCoordinates, 
+  addLanguages, 
+  wordPostFetch, 
+  addMostCommonWord
+} from '../Redux/actions.js'
 import Navbar from './Navbar'
-import '../WordForm.css'
+import '../styles/css/WordForm.css'
 import {testFunc} from '../lib/testFunc.js'
 
-///API KEY\\\
-const dictKey = (process.env.REACT_APP_DICTIONARY_API_KEY)
-
-const InputWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-`
-
-const ProgressBarContainer = styled.div`
-  width: 300px;
-  margin-top: -6em;
-`
-
-class WordInput extends Component {
+class Dashboard extends Component {
 
   state = {
     word: '',
     username: '',
-    percentage: 0,
     hasCoordinates: false
   }
 
-  /// If user is not logged in, send them back to login page. 
   componentDidMount(){
     // if (!localStorage.token || !this.props.state.currentUser.username) {
     //   this.props.history.push('/login')
@@ -47,66 +32,53 @@ class WordInput extends Component {
     .then(data => this.findMostCommonWord(data))
   }
 
-  /// Find the current most searched word and render it
   findMostCommonWord = (words) => {
     let wordArr = words.map(word => word.word_name)
     let mostCommon = wordArr.sort((a,b) =>
-          wordArr.filter(v => v===a).length
-        - wordArr.filter(v => v===b).length
+          wordArr.filter(word => word === a).length
+        - wordArr.filter(word => word === b).length
     ).pop();
-      this.props.addMostCommonWord(mostCommon)
-    }
+    this.props.addMostCommonWord(mostCommon)
+  }
 
   handleChange = (e) => {
     /// No special characters or numbers!
     let regex = /[0-9]|`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\_|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\;|\:|\s/g
-    if (regex.test(e.target.value)) {
-      alert("No numbers or special characters!")
-    } else {
+    if (regex.test(e.target.value)) alert("No numbers or special characters!")
+    else {
     this.setState({
       [e.target.name]: e.target.value
     })}
   }
 
-  // clickHandler = (e) => {
-  //   e.preventDefault()
-  //   lookUpWord(this.state.word)
-  // }
-
   ///Gets etymology from API
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
-    fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${dictKey}`)
+    fetch(`https://dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.REACT_APP_DICTIONARY_API_KEY}`)
     .then(resp => resp.json())
     .then(data => {
       if (data.length === 0 || data[0].et === undefined) {
         alert("We couldn't find origins for this word!")
-        this.props.removeWord(e)
+        return this.props.removeWord(e)
       } 
       else  {
         this.props.addWord(word, data[0])
-        this.increaseBar()
+        this.compareLanguages()
       }
-      setTimeout(() => this.compareLanguages(), 500)
     })
   }
 
   ///Extracts languages from etymology string and returns an array of languages
-  compareLanguages = (e) => {
-    debugger
-    if (this.props.state.word.word === ""){
-      alert("please enter a valid word")
-      this.setState({
-        percentage: 0
-      })
-    }
-    else if (this.props.state.word.etymology[0][1] === "origin unknown") {
+  compareLanguages = () => {
+    const {word} = this.props.state 
+    if (!word.word)return alert("please enter a valid word")
+    else if (word.etymology[0][1] === "origin unknown") {
       alert("Woops, no origin found for this one.")
+      return 
     } 
     else {
-      let etymologyStr = this.props.state.word.etymology[0][1]
-      let languageArr = etymologyStr.split(" ")
+      let languageArr = word.etymology[0][1].split(" ")
       /// ...new Set prevents duplicates
       let currentLanguages = [...new Set(languageArr)]
       let matchedLanguages = []
@@ -120,19 +92,13 @@ class WordInput extends Component {
         }
       }
       this.props.addLanguages(matchedLanguages)
-      this.increaseBar()
-      setTimeout(() => this.getCoordinates(), 500)
+      this.getCoordinates()
     }
   }
 
   ///Finds origin country coordinates for each language!!!
   getCoordinates = () => {
-    if (this.props.state.languages.length === 0){
-      alert("We dunno where that one comes from tbh - try a different one!")
-      this.setState({
-        percentage: this.state.percentage = 0
-      })
-    } 
+    if (this.props.state.languages.length === 0) alert("Not sure where that one comes from tbh - try a different one!")
     else {
     let coordinatesToRender = []
     let myLanguages = [...this.props.state.languages]
@@ -148,20 +114,14 @@ class WordInput extends Component {
       }
     }))
     this.props.addCoordinates(coordinatesToRender)
-    this.increaseBar()
     this.setCoordinates()
-    setTimeout(() => this.sendToMap(), 500)
-
+    this.sendToMap()
     }
   }
 
   sendToMap = () => {
-    if (this.state.hasCoordinates === false) {
-      alert("No location(s) to show you. Try again!")
-      this.setState({
-        percentage: this.state.percentage = 0
-      })
-    } else {
+    if (this.state.hasCoordinates === false) alert("No location(s) to show you. Try again!")
+    else {
       let wordToSend = this.props.state.word.word.toLowerCase()
       this.props.wordPostFetch(wordToSend)
       this.props.history.push('/loading')
@@ -173,13 +133,7 @@ class WordInput extends Component {
       hasCoordinates: true
     })
   }
-
-  increaseBar = (e) => {
-    this.setState({
-      percentage: this.state.percentage + Math.round(33.6)
-    })
-  }
-
+  
   render(){
     return(
       <div className="WordForm-component">
@@ -204,11 +158,6 @@ class WordInput extends Component {
             onClick={this.lookUpWord}
           />
         </form>
-        <InputWrapper>
-          <ProgressBarContainer>
-            <ProgressBar percentage={this.state.percentage} />
-          </ProgressBarContainer>
-        </InputWrapper>
       </div>
     )
   }
@@ -220,4 +169,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addLanguages, wordPostFetch, addMostCommonWord})(WordInput)
+export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addLanguages, wordPostFetch, addMostCommonWord})(Dashboard)

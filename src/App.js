@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ProfilePage from './components/ProfilePage.js'
 import { Switch, Route } from 'react-router-dom'
-import WordForm from './components/WordForm.js'
+import Dashboard from './components/Dashboard.js'
 import LoginSignupContainer from './containers/LoginSignupContainer.js'
 import LoadingScreen from './components/LoadingScreen.js'
 import LogOut from './components/LogOut.js'
@@ -19,7 +19,7 @@ render(){
         <Route
           path={'/profile'}
           render={routerProps => <ProfilePage {...routerProps} />} />
-        <Route path={'/input'} component={WordForm} />
+        <Route path={'/input'} component={Dashboard} />
         <Route path={'/loading'} component={LoadingScreen} />
         <Route path={'/logout'} component={LogOut} />
         <Route path={'/map'} component={WordMapContainer} />

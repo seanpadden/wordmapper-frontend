@@ -1,9 +1,9 @@
 import React, { Component } from "react"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, Polyline} from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap} from "react-google-maps"
 import {connect} from 'react-redux'
 import UserMarker from './UserMarker.js'
 
-const styles = require('../ProfileMapStyles.json')
+const styles = require('../styles/map-styles/ProfileMapStyles.json')
 
 class UserMap extends Component {
 

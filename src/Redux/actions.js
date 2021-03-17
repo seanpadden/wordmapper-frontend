@@ -49,7 +49,7 @@ export const addMostCommonWord = (word) => {
 }
 
 
-export const saveMapFetch = (word) => {
+export const saveMapFetch = (obj) => {
   return dispatch => {
     return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
@@ -58,14 +58,15 @@ export const saveMapFetch = (word) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        user_id: word.currentUser.id,
-        word_name: word.word,
-        etymology: word.etymology[0][1],
-        coordinates: word.currentLocation
+        user_id: obj.currentUser.id,
+        word_name: obj.word,
+        etymology: obj.word.etymology[0][1],
+        coordinates: obj.currentLocation
       })
     })
       .then(resp => resp.json())
       .then(data => {
+        debugger 
         if (!data.error){
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { userLoginFetch } from '../Redux/userActions.js'
-import '../LoginPage.css'
+import '../styles/css/LoginPage.css'
 import SignUpPage from './SignUpPage.js'
 
 
