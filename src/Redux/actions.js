@@ -50,7 +50,6 @@ export const addMostCommonWord = (word) => {
 
 
 export const saveMapFetch = (obj) => {
-  debugger
   return dispatch => {
     return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
@@ -67,7 +66,6 @@ export const saveMapFetch = (obj) => {
     })
       .then(resp => resp.json())
       .then(data => {
-        debugger 
         if (!data.error){
           alert("Saved! Check it out in your profile!")
           dispatch(saveMap(data))

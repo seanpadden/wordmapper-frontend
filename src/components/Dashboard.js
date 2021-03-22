@@ -10,7 +10,7 @@ import {
 } from '../Redux/actions.js'
 import Navbar from './Navbar'
 import '../styles/css/WordForm.css'
-import {testFunc} from '../lib/testFunc.js'
+import {validateWord} from '../lib/helpers.js'
 
 class Dashboard extends Component {
 
@@ -40,16 +40,9 @@ class Dashboard extends Component {
   }
 
   handleChange = (e) => {
-    /// No special characters or numbers!
-    let regex = /[0-9]|`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\_|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\;|\:|\s/g
-    if (regex.test(e.target.value)) alert("No numbers or special characters!")
-    else {
-    this.setState({
-      [e.target.name]: e.target.value
-    })}
+    if (validateWord(e.target.value)) this.setState({[e.target.name]: e.target.value})
   }
 
-  ///Gets etymology from API
   lookUpWord = (e) => {
     e.preventDefault()
     let word = this.state.word
@@ -80,6 +73,7 @@ class Dashboard extends Component {
       /// ...new Set prevents duplicates
       let currentLanguages = [...new Set(languageArr)]
       let matchedLanguages = []
+      this.props.state.allTheLanguages.sort()
       for (let i = 0; i < currentLanguages.length; i++) {
         for (let j = 0; j < this.props.state.allTheLanguages.length; j++) {
           let temp = this.props.state.allTheLanguages[j].split(", ")
@@ -94,17 +88,16 @@ class Dashboard extends Component {
     }
   }
 
-  ///Finds origin country coordinates for each language!!!
+  ///Finds origin country coordinates for each language
   getCoordinates = () => {
-    if (this.props.state.languages.length === 0) alert("Not sure where that one comes from tbh - try a different one!")
+    if (this.props.state.languages.length === 0) alert("Not sure where that one comes from - try another!")
     else {
     let coordinatesToRender = []
     let myLanguages = [...this.props.state.languages]
       myLanguages.map((lang => {
-      let eachLanguage = lang
       for (let i = 0; this.props.state.languagesToCoordinates.length; i++) {
         for (const language in this.props.state.languagesToCoordinates[i]) {
-          if (language == eachLanguage) {
+          if (language == lang) {
             coordinatesToRender.push(this.props.state.languagesToCoordinates[i][language])
           }
         }
@@ -120,16 +113,13 @@ class Dashboard extends Component {
   sendToMap = () => {
     if (this.state.hasCoordinates === false) alert("No location(s) to show you. Try again!")
     else {
-      let wordToSend = this.props.state.word.word.toLowerCase()
-      this.props.wordPostFetch(wordToSend)
+      this.props.wordPostFetch(this.props.state.word.word.toLowerCase())
       this.props.history.push('/loading')
     }
   }
 
   setCoordinates = () => {
-    this.setState({
-      hasCoordinates: true
-    })
+    this.setState({ hasCoordinates: true })
   }
   
   render(){
@@ -162,9 +152,16 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+  debugger 
   return {
     state
   }
 }
 
-export default connect(mapStateToProps, {addWord, removeWord, addCoordinates, addLanguages, wordPostFetch, addMostCommonWord})(Dashboard)
+export default connect(mapStateToProps, { 
+  addWord, 
+  removeWord, 
+  addCoordinates, 
+  addLanguages, 
+  wordPostFetch, 
+  addMostCommonWord})(Dashboard)
