@@ -31,7 +31,7 @@ class Word extends Component {
   }
   
   render(){
-    let dumbDate = this.props.state.word.date
+    let dumbDate = this.props.state.wordObj.date
     const regex = /{(.*?)}/g
     if (regex.test(dumbDate)){
       var dateToShow = dumbDate.replace(regex, "")
@@ -40,9 +40,9 @@ class Word extends Component {
     }
     return(
       <div className="word">
-        <h1 className={`fade-in ${this.state.word}`}>{this.props.state.word.word}</h1>
+        <h1 className={`fade-in ${this.state.word}`}>{this.props.state.wordObj.word}</h1>
         <h3 className={`fade-in ${this.state.date}`}>First known use: {dateToShow}</h3>
-        <p className={`fade-in ${this.state.definition}`}>{this.props.state.word.shortdef[0]}</p>    
+        <p className={`fade-in ${this.state.definition}`}>{this.props.state.wordObj.shortdef[0]}</p>    
       </div>
 
     )

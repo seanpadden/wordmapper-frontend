@@ -3,7 +3,6 @@ import { Marker, InfoWindow } from "react-google-maps";
 import {connect} from 'react-redux'
 import featherpad from '../styles/images/featherpad.svg'
 
-
 class WordMarker extends Component {
 
   state = {
@@ -24,7 +23,7 @@ class WordMarker extends Component {
 
   render(){
     ///Get rid of weird characters in etymology string
-    let etyArray = this.props.state.word.etymology[0]
+    let etyArray = this.props.state.wordObj.etymology[0]
     let etyString = etyArray[1]
     const regex = /{(.*?)}/g
     if (regex.test(etyString)){
@@ -34,7 +33,7 @@ class WordMarker extends Component {
     return(
       <div>
         <Marker 
-          position={this.props.position}
+          position={{lat: this.props.lat, lng: this.props.lng}}
           onClick={this.handleOpen}
           animation={window.google.maps.Animation.DROP}
           icon={featherpad}
