@@ -6,18 +6,17 @@ import {
   addCoordinates, 
   addLanguages, 
   wordPostFetch, 
-  addMostCommonWord
+  addMostCommonWord,
+  getLanguageCoordinates
 } from '../Redux/actions.js'
 import Navbar from './Navbar'
 import '../styles/css/WordForm.css'
-import {validateWord} from '../lib/helpers.js'
+import {validateWord, cleanUpEtymologyStr} from '../lib/helpers.js'
 
 class Dashboard extends Component {
 
   state = {
     word: '',
-    username: '',
-    hasCoordinates: false
   }
 
   componentDidMount(){
@@ -55,71 +54,26 @@ class Dashboard extends Component {
       } 
       else  {
         this.props.addWord(word, data[0])
-        this.compareLanguages()
+        this.findWordOrigins()
       }
     })
   }
 
-  ///Extracts languages from etymology string and returns an array of languages
-  compareLanguages = () => {
-    const {word} = this.props.state 
-    if (!word.word)return alert("please enter a valid word")
-    else if (word.etymology[0][1] === "origin unknown") {
-      alert("Woops, no origin found for this one.")
+  findWordOrigins = () => {
+    const { wordObj } = this.props.state
+    if (!wordObj.word) return alert("Please enter a valid word")
+    else if (wordObj.etymology[0][1] === "Origin unknown") {
+      alert("Woops, no origin found for this word.")
       return 
     } 
     else {
-      let languageArr = word.etymology[0][1].split(" ")
-      /// ...new Set prevents duplicates
-      let currentLanguages = [...new Set(languageArr)]
-      let matchedLanguages = []
-      this.props.state.allTheLanguages.sort()
-      for (let i = 0; i < currentLanguages.length; i++) {
-        for (let j = 0; j < this.props.state.allTheLanguages.length; j++) {
-          let temp = this.props.state.allTheLanguages[j].split(", ")
-          if (currentLanguages[i] == temp[0]) {
-            matchedLanguages.push(this.props.state.allTheLanguages[j])
-            break
-          }
-        }
+      const etymologyStr = cleanUpEtymologyStr(wordObj.etymology[0][1])
+      if (etymologyStr !== undefined) {
+        const etymologyArr = [...new Set(etymologyStr.split(" "))]
+        this.props.wordPostFetch(wordObj.word.toLowerCase())
+        this.props.getLanguageCoordinates(etymologyArr, this.props.history)
       }
-      this.props.addLanguages(matchedLanguages)
-      this.getCoordinates()
     }
-  }
-
-  ///Finds origin country coordinates for each language
-  getCoordinates = () => {
-    if (this.props.state.languages.length === 0) alert("Not sure where that one comes from - try another!")
-    else {
-    let coordinatesToRender = []
-    let myLanguages = [...this.props.state.languages]
-      myLanguages.map((lang => {
-      for (let i = 0; this.props.state.languagesToCoordinates.length; i++) {
-        for (const language in this.props.state.languagesToCoordinates[i]) {
-          if (language == lang) {
-            coordinatesToRender.push(this.props.state.languagesToCoordinates[i][language])
-          }
-        }
-      break 
-      }
-    }))
-    this.props.addCoordinates(coordinatesToRender)
-    this.setCoordinates()
-    this.sendToMap()
-    }
-  }
-
-  sendToMap = () => {
-    if (this.state.hasCoordinates === false) alert("No location(s) to show you. Try again!")
-    else {
-      this.props.wordPostFetch(this.props.state.word.word.toLowerCase())
-      this.props.history.push('/loading')
-    }
-  }
-
-  setCoordinates = () => {
-    this.setState({ hasCoordinates: true })
   }
   
   render(){
@@ -152,7 +106,6 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-  debugger 
   return {
     state
   }
@@ -163,5 +116,6 @@ export default connect(mapStateToProps, {
   removeWord, 
   addCoordinates, 
   addLanguages, 
-  wordPostFetch, 
+  wordPostFetch,
+  getLanguageCoordinates, 
   addMostCommonWord})(Dashboard)
