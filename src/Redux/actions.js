@@ -18,12 +18,37 @@ export const addLanguages = (languages) => {
   }
 }
 
-export const addCoordinates = (coordinates) => {
+export const addCoordinates = (coordinates, history) => {
   return {
     type: "ADD_COORDINATES",
-    payload: coordinates
+    payload: coordinates, history
   }
 }
+
+export const getLanguageCoordinates = (originLanguages, history) => {
+  let locations = []
+  return dispatch => {
+    return fetch('https://wordmapper-backend.herokuapp.com/languages')
+    .then(resp => resp.json())
+    .then(languages => {
+      originLanguages.forEach(word => {
+        languages.forEach(language => {
+          if (word === language.name) {
+            locations.push(language.locations[0])
+          }
+        })
+      })
+      if (locations.length > 0) {
+        dispatch(addCoordinates(locations))
+        history.push('/loading')
+      }
+      else {
+        alert("No origin locations found for this word's etymology")
+      }
+    })
+  }
+}
+
 
 export const wordPostFetch = (word) => {
   return dispatch => {
@@ -49,7 +74,7 @@ export const addMostCommonWord = (word) => {
 }
 
 
-export const saveMapFetch = (obj) => {
+export const saveMapFetch = (state) => {
   return dispatch => {
     return fetch("https://wordmapper-backend.herokuapp.com/savemap", {
       method: "POST",
@@ -58,10 +83,10 @@ export const saveMapFetch = (obj) => {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        user_id: obj.currentUser.id,
-        word_name: obj.word.word,
-        etymology: obj.word.etymology[0][1],
-        coordinates: obj.currentLocation
+        user_id: state.currentUser.id,
+        word_name: state.wordObj.word,
+        etymology: state.wordObj.etymology[0][1],
+        coordinates: state.currentLocation
       })
     })
       .then(resp => resp.json())
