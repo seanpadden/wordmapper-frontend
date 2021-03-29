@@ -6,3 +6,11 @@ export const validateWord = (word) => {
   }
   return true 
 }
+
+export const cleanUpEtymologyStr = (etyString) => {
+  const regex = /{(.*?)}/g
+  if (regex.test(etyString)){
+    return etyString.replace(regex, "")
+  } 
+  else alert("No origin locations found for this word's etymology")
+}
