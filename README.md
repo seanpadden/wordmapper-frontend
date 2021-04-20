@@ -1,6 +1,6 @@
 # WordMapper
 
-  Language and its history is a fascinating thing, and the words we use every day come from all over the world! WordMapper is a full-stack educational (or time waster🙃) app that allows the grammatically curious to explore the history of the English language on a map!
+WordMapper is a full-stack educational (or time wasting🙃) app that allows the grammatically curious to explore the history of the English language on a map!
 
    Built using a React frontend and [Rails backend](https://github.com/seanpadden/wordmapper-backend), it leverages the [Webster Dictionary API](https://dictionaryapi.com/) and Google Maps to pinpoint the approximate location of a word's origin coordinates, based on the earliest known homeland of a language. 
    
